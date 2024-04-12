@@ -22,6 +22,7 @@
 
 #define CPU_VENDOR_INTEL_STRING "GenuineIntel"
 #define CPU_VENDOR_AMD_STRING   "AuthenticAMD"
+#define CPU_VENDOR_CENTAUR_STRING "CentaurHauls"
 
 static const char *hv_vendors_string[] = {
   [HV_VENDOR_KVM]       = "KVMKVMKVM",
@@ -468,6 +469,8 @@ struct cpuInfo* get_cpu_info(void) {
     cpu->cpu_vendor = CPU_VENDOR_INTEL;
   else if (strcmp(CPU_VENDOR_AMD_STRING,name) == 0)
     cpu->cpu_vendor = CPU_VENDOR_AMD;
+  else if (strcmp(CPU_VENDOR_CENTAUR_STRING,name) == 0)
+    cpu->cpu_vendor = CPU_VENDOR_CENTAUR;
   else {
     cpu->cpu_vendor = CPU_VENDOR_INVALID;
     printErr("Unknown CPU vendor: %s", name);
@@ -757,6 +760,13 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
 
       get_cache_topology_amd(cpu, topo);
 
+      break;
+
+    case CPU_VENDOR_CENTAUR:
+      topo->physical_cores = 1;
+      topo->logical_cores = 1;
+      topo->smt_available = 1;
+      topo->smt_supported = 1;
       break;
 
     default:
