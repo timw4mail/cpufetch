@@ -405,8 +405,8 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch, 0, 5, 0, 0, "mP6", UARCH_MP6, 250) // sandpile.org
-  CHECK_UARCH(arch, 0, 5, 0, 2, "iDragon", UARCH_MP6, 180) // sandpile.org
+  CHECK_UARCH(arch, 0, 5, 0, 0, NA, "mP6", UARCH_MP6, 250) // sandpile.org
+  CHECK_UARCH(arch, 0, 5, 0, 2, NA, "iDragon", UARCH_MP6, 180) // sandpile.org
   UARCH_END
 
   return arch;
