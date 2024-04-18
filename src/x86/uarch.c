@@ -115,7 +115,10 @@ enum {
   UARCH_ZEN3,
   UARCH_ZEN3_PLUS,
   UARCH_ZEN4,
-  UARCH_ZEN4C
+  UARCH_ZEN4C,
+  // Others //
+  UARCH_MP6,
+  UARCH_MP6_SHRINK
 };
 
 struct uarch {
@@ -391,6 +394,24 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   return arch;
 }
 
+struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch *arch = emalloc(sizeof(struct uarch));
+
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  CHECK_UARCH(arch, 0, 5, 0, 0, "mP6", UARCH_MP6, 250) // sandpile.org
+  CHECK_UARCH(arch, 0, 5, 0, 0, "iDragon", UARCH_MP6, 180) // sandpile.org
+  UARCH_END
+
+  return arch;
+}
+
 struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
   if(cpu->cpu_vendor == CPU_VENDOR_INTEL) {
     struct uarch* arch = emalloc(sizeof(struct uarch));
@@ -435,8 +456,10 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
     }
     return get_uarch_from_cpuid_intel(ef, f, em, m, s);
   }
-  else
+  else if (cpu->cpu_vendor == CPU_VENDOR_AMD)
     return get_uarch_from_cpuid_amd(ef, f, em, m, s);
+  else
+    return get_uarch_from_cpuid_other(ef, f, em, m, s);
 }
 
 // If we cannot get the CPU name from CPUID, try to infer it from uarch
