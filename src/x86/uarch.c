@@ -483,9 +483,9 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
   else if (arch->uarch == UARCH_P6_PENTIUM_III)
     str = "Intel Pentium III";
   else if (arch->uarch == UARCH_MP6)
-    str = "Rise mP6"
+    str = "Rise mP6";
   else if (arch->uarch == UARCH_MP6_SHRINK)
-    str = "Rise iDragon"
+    str = "Rise iDragon";
   else
     printErr("Unable to find name from uarch: %d", arch->uarch);
 
