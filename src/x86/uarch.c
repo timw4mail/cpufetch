@@ -118,7 +118,8 @@ enum {
   UARCH_ZEN4C,
   // Others //
   UARCH_MP6,
-  UARCH_MP6_SHRINK
+  UARCH_MP6_SHRINK,
+  UARCH_ISAIAH
 };
 
 struct uarch {
@@ -407,6 +408,7 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   UARCH_START
   CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",        UARCH_MP6,          250) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "iDragon",    UARCH_MP6_SHRINK,   180) // sandpile.org
+  CHECK_UARCH(arch,  0,  6.  0, 15,  10, "Isaiah",     UARCH_ISAIAH,        65)
   UARCH_END
 
   return arch;
@@ -486,6 +488,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Rise mP6";
   else if (arch->uarch == UARCH_MP6_SHRINK)
     str = "Rise iDragon";
+  else if (arch->uarch == UARCH_ISAIAH)
+    str = "Via Nano";
   else
     printErr("Unable to find name from uarch: %d", arch->uarch);
 
