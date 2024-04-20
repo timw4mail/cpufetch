@@ -517,7 +517,7 @@ typedef struct ascii_logo asciiL;
 asciiL logo_amd         = { ASCII_AMD,         39, 15, false, {C_FG_WHITE, C_FG_GREEN},                       {C_FG_WHITE,   C_FG_GREEN}   };
 asciiL logo_intel       = { ASCII_INTEL,       48, 14, false, {C_FG_CYAN},                                    {C_FG_CYAN,    C_FG_WHITE}   };
 asciiL logo_intel_new   = { ASCII_INTEL_NEW,   51,  9, false, {C_FG_CYAN},                                    {C_FG_CYAN,    C_FG_WHITE}   };
-asciiL logo_via         = { ASCII_VIA,         74, 15, false, {C_FG_CYAN},                                    {C_FG_B_CYAN,  C_FG_WHITE}   };
+asciiL logo_via         = { ASCII_VIA,         74, 15, false, {C_FG_CYAN},                                    {C_FG_WHITE,   C_FG_B_CYAN}  };
 asciiL logo_snapd       = { ASCII_SNAPD,       39, 16, false, {C_FG_RED, C_FG_WHITE},                         {C_FG_RED,     C_FG_WHITE}   };
 asciiL logo_mtk         = { ASCII_MTK,         59,  5, false, {C_FG_BLUE, C_FG_YELLOW},                       {C_FG_BLUE,    C_FG_YELLOW}  };
 asciiL logo_exynos      = { ASCII_EXYNOS,      22, 13, true,  {C_BG_BLUE, C_FG_WHITE},                        {C_FG_BLUE,    C_FG_WHITE}   };
