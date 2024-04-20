@@ -360,6 +360,9 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
   else if(art->vendor == CPU_VENDOR_CENTAUR) {
     art->art = &logo_via;
   }
+  else if(art->vendor == CPU_VENDOR_RISE) {
+    art->art = &logo_rise;
+  }
   else {
     art->art = &logo_unknown;
   }
