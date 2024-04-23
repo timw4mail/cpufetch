@@ -49,6 +49,7 @@ enum {
   // INTEL //
   UARCH_P5,
   UARCH_P5_MMX,
+  UARCH_P6_PRO,
   UARCH_P6_PENTIUM_II,
   UARCH_P6_PENTIUM_III,
   UARCH_DOTHAN,
@@ -164,6 +165,11 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   CHECK_UARCH(arch, 0,  5,  0,  9,  0, "Lakemont",          UARCH_LAKEMONT,         32)
   CHECK_UARCH(arch, 0,  5,  0,  9, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
   CHECK_UARCH(arch, 0,  5,  0, 10,  0, "Lakemont",          UARCH_LAKEMONT,         32)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  1, "Pentium Pro",       UARCH_P6_PRO,          UNK)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  2, "Pentium Pro",       UARCH_P6_PRO,          600)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  6, "Pentium Pro",       UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  7, "Pentium Pro",       UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  9, "Pentium Pro",       UARCH_P6_PRO,          350)
   CHECK_UARCH(arch, 0,  6,  0,  0, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK)
   CHECK_UARCH(arch, 0,  6,  0,  1, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK) // process depends on core
   CHECK_UARCH(arch, 0,  6,  0,  2, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK)
