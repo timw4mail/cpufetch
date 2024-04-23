@@ -121,7 +121,8 @@ enum {
   UARCH_MP6,
   UARCH_MP6_SHRINK,
   UARCH_ESTHER,
-  UARCH_ISAIAH
+  UARCH_ISAIAH,
+  UARCH_LUJIAZUI
 };
 
 struct uarch {
@@ -417,6 +418,7 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "iDragon",    UARCH_MP6_SHRINK,   180) // sandpile.org
   CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther",     UARCH_ESTHER,        90)
   CHECK_UARCH(arch,  0,  6,  0, 15,  10, "Isaiah",     UARCH_ISAIAH,        65)
+  CHECK_UARCH(arch,  0,  7,  0, 11,   0, "LuJiaZui",   UARCH_LUJIAZUI,      16)
   UARCH_END
 
   return arch;
