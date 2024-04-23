@@ -166,11 +166,11 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   CHECK_UARCH(arch, 0,  5,  0,  9,  0, "Lakemont",          UARCH_LAKEMONT,         32)
   CHECK_UARCH(arch, 0,  5,  0,  9, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
   CHECK_UARCH(arch, 0,  5,  0, 10,  0, "Lakemont",          UARCH_LAKEMONT,         32)
-  CHECK_UARCH(arch, 0,  6,  0,  1,  1, "Pentium Pro",       UARCH_P6_PRO,          UNK)
-  CHECK_UARCH(arch, 0,  6,  0,  1,  2, "Pentium Pro",       UARCH_P6_PRO,          600)
-  CHECK_UARCH(arch, 0,  6,  0,  1,  6, "Pentium Pro",       UARCH_P6_PRO,          350)
-  CHECK_UARCH(arch, 0,  6,  0,  1,  7, "Pentium Pro",       UARCH_P6_PRO,          350)
-  CHECK_UARCH(arch, 0,  6,  0,  1,  9, "Pentium Pro",       UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  1, "P6",                UARCH_P6_PRO,          UNK)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  2, "P6",                UARCH_P6_PRO,          600)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  6, "P6",                UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  7, "P6",                UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  9, "P6",                UARCH_P6_PRO,          350)
   CHECK_UARCH(arch, 0,  6,  0,  0, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK)
   CHECK_UARCH(arch, 0,  6,  0,  1, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK) // process depends on core
   CHECK_UARCH(arch, 0,  6,  0,  2, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK)
@@ -490,6 +490,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Intel Pentium";
   else if (arch->uarch == UARCH_P5_MMX)
     str = "Intel Pentium MMX";
+  else if (arch->uarch == UARCH_P6_PRO)
+    str = "Intel Pentium Pro";
   else if (arch->uarch == UARCH_P6_PENTIUM_II)
     str = "Intel Pentium II";
   else if (arch->uarch == UARCH_P6_PENTIUM_III)
@@ -498,6 +500,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Rise mP6";
   else if (arch->uarch == UARCH_MP6_SHRINK)
     str = "Rise iDragon";
+  else if (arch->uarch == UARCH_LUJIAZUI)
+    str = "Zhaoxin KaiXian";
   else
     printErr("Unable to find name from uarch: %d", arch->uarch);
 
