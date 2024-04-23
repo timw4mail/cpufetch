@@ -700,9 +700,7 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
   }
 
   switch(cpu->cpu_vendor) {
-    case CPU_VENDOR_CYRIX:
-    case CPU_VENDOR_RISE:
-    case CPU_VENDOR_INTEL:
+    case CPU_VENDOR_CENTAUR:
       if (cpu->maxLevels >= 0x00000004) {
         bool toporet = get_topology_from_apic(cpu, topo);
         if(!toporet) {
@@ -770,11 +768,12 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
 
       break;
 
-    case CPU_VENDOR_CENTAUR:
+    case CPU_VENDOR_CYRIX:
+    case CPU_VENDOR_RISE:
       topo->physical_cores = 1;
       topo->logical_cores = 1;
-      topo->smt_available = 1;
-      topo->smt_supported = 1;
+      topo->smt_available = 0;
+      topo->smt_supported = 0;
       break;
 
     default:
