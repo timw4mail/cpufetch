@@ -117,13 +117,22 @@ enum {
   UARCH_ZEN3_PLUS,
   UARCH_ZEN4,
   UARCH_ZEN4C,
-  // Others //
-  UARCH_MP6,
-  UARCH_MP6_SHRINK,
+  // Centaur //
+  UARCH_WINCHIP,
+  UARCH_WINCHIP2,
+  UARCH_WINCHIP2A,
+  UARCH_WINCHIP2B,
+  UARCH_WINCHIP3,
+  UARCH_SAMUEL,
+  UARCH_SAMUEL2,
+  UARCH_NEHEMIAH,
   UARCH_ESTHER,
   UARCH_ISAIAH,
   UARCH_WUDAOKOU,
-  UARCH_LUJIAZUI
+  UARCH_LUJIAZUI,
+  // Others //
+  UARCH_MP6,
+  UARCH_MP6_SHRINK
 };
 
 struct uarch {
@@ -404,6 +413,29 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   return arch;
 }
 
+struct uarch* get_uarch_from_cpuid_centaur(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch *arch = emalloc(sizeof(struct uarch));
+
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "C6",         UARCH_WINCHIP,      350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  8,   5, "W2",         UARCH_WINCHIP2,     350) // sandpile.org / cpu-world
+  CHECK_UARCH(arch,  0,  5,  0,  8,   7, "W2A",        UARCH_WINCHIP2A,    250)
+  CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther",     UARCH_ESTHER,        90)
+  CHECK_UARCH(arch,  0,  6,  0, 15,  NA, "Isaiah",     UARCH_ISAIAH,        65)
+  CHECK_UARCH(arch,  0,  7,  1, 11,   0, "WuDaoKou",   UARCH_WUDAOKOU,      28)
+  CHECK_UARCH(arch,  0,  7,  3, 11,   0, "LuJiaZui",   UARCH_LUJIAZUI,      16)
+  UARCH_END
+
+  return arch;
+}
+
 struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
   struct uarch *arch = emalloc(sizeof(struct uarch));
 
@@ -417,10 +449,6 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   UARCH_START
   CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",        UARCH_MP6,          250) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "mP6",        UARCH_MP6_SHRINK,   180) // sandpile.org
-  CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther",     UARCH_ESTHER,        90)
-  CHECK_UARCH(arch,  0,  6,  0, 15,  10, "Isaiah",     UARCH_ISAIAH,        65)
-  CHECK_UARCH(arch,  0,  7,  1, 11,   0, "WuDaoKou",   UARCH_WUDAOKOU,      28)
-  CHECK_UARCH(arch,  0,  7,  3, 11,   0, "LuJiaZui",   UARCH_LUJIAZUI,      16)
   UARCH_END
 
   return arch;
@@ -472,6 +500,8 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
   }
   else if (cpu->cpu_vendor == CPU_VENDOR_AMD)
     return get_uarch_from_cpuid_amd(ef, f, em, m, s);
+  else if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR)
+    return get_uarch_from_cpuid_centaur(ef, f, em, m, s);
   else
     return get_uarch_from_cpuid_other(ef, f, em, m, s);
 }

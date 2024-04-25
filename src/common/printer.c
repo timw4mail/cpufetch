@@ -220,13 +220,13 @@ void printOutLine(struct line_buffer* lbuf, struct ascii* art, int termw) {
 }
 
 char* getAttributeValue(struct ascii* art, int type) {
-  for (int i = 0; i <= art->n_attributes_set; i++) {
+  for (uint32_t i = 0; i <= art->n_attributes_set; i++) {
     if (art->attributes[i]->type == type) {
       return art->attributes[i]->value;
     }
   }
 
-  return "";
+  return STRING_UNKNOWN;
 }
 
 void setAttribute(struct ascii* art, int type, char* value) {
