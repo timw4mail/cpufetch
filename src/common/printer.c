@@ -219,6 +219,16 @@ void printOutLine(struct line_buffer* lbuf, struct ascii* art, int termw) {
   lbuf->chars = 0;
 }
 
+char* getAttributeValue(struct ascii* art, int type) {
+  for (int i = 0; i <= art->n_attributes_set; i++) {
+    if (art->attributes[i]->type == type) {
+      return art->attributes[i]->value;
+    }
+  }
+
+  return "";
+}
+
 void setAttribute(struct ascii* art, int type, char* value) {
   art->attributes[art->n_attributes_set]->value = value;
   art->attributes[art->n_attributes_set]->type = type;
@@ -358,9 +368,10 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
     art->art = choose_ascii_art_aux(&logo_amd_l, &logo_amd, term, lf);
   }
   else if(art->vendor == CPU_VENDOR_CENTAUR) {
+    char* uarch = getAttributeValue(art, ATTRIBUTE_UARCH);
     if (
-      strcmp(art->attributes[ATTRIBUTE_UARCH]->value, "WuDaoKou") == 0 ||
-      strcmp(art->attributes[ATTRIBUTE_UARCH]->value, "LuJiaZui") == 0
+      strcmp(uarch, "WuDaoKou") == 0 ||
+      strcmp(uarch, "LuJiaZui") == 0
     ) {
       art->art = &logo_zhaoxin;
     } else {
