@@ -358,7 +358,13 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
     art->art = choose_ascii_art_aux(&logo_amd_l, &logo_amd, term, lf);
   }
   else if(art->vendor == CPU_VENDOR_CENTAUR) {
-    art->art = &logo_via;
+    if (
+      strcmp(art->attributes[ATTRIBUTE_UARCH]->value, "WuDaoKou") == 0 ||
+      strcmp(art->attributes[ATTRIBUTE_UARCH]->value, "LuJiaZui") == 0
+    )
+        art->art = &logo_zhaoxin;
+    else
+      art->art = &logo_via;
   }
   else if(art->vendor == CPU_VENDOR_RISE) {
     art->art = &logo_rise;
