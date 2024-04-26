@@ -125,7 +125,10 @@ enum {
   UARCH_WINCHIP3,
   UARCH_SAMUEL,
   UARCH_SAMUEL2,
+  UARCH_EZRA,
+  UARCH_EZRA_T,
   UARCH_NEHEMIAH,
+  UARCH_NEHEMIAH_P,
   UARCH_ESTHER,
   UARCH_ISAIAH,
   UARCH_WUDAOKOU,
@@ -424,13 +427,35 @@ struct uarch* get_uarch_from_cpuid_centaur(uint32_t ef, uint32_t f, uint32_t em,
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "C6",         UARCH_WINCHIP,      350) // sandpile.org
-  CHECK_UARCH(arch,  0,  5,  0,  8,   5, "W2",         UARCH_WINCHIP2,     350) // sandpile.org / cpu-world
-  CHECK_UARCH(arch,  0,  5,  0,  8,   7, "W2A",        UARCH_WINCHIP2A,    250)
-  CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther",     UARCH_ESTHER,        90)
-  CHECK_UARCH(arch,  0,  6,  0, 15,  NA, "Isaiah",     UARCH_ISAIAH,        65)
-  CHECK_UARCH(arch,  0,  7,  1, 11,   0, "WuDaoKou",   UARCH_WUDAOKOU,      28)
-  CHECK_UARCH(arch,  0,  7,  3, 11,   0, "LuJiaZui",   UARCH_LUJIAZUI,      16)
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "C6",               UARCH_WINCHIP,      350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  8,   5, "W2 (C6+)",         UARCH_WINCHIP2,     350) // sandpile.org / cpu-world
+  CHECK_UARCH(arch,  0,  5,  0,  8,   7, "W2A",              UARCH_WINCHIP2A,    250)
+  CHECK_UARCH(arch,  0,  5,  0,  8,  10, "W2B",              UARCH_WINCHIP2B,    250)
+  CHECK_UARCH(arch,  0,  5,  0,  9,  NA, "W3",               UARCH_WINCHIP3,     250)
+  CHECK_UARCH(arch,  0,  6,  0,  6,  NA, "Samuel (C5A)",     UARCH_SAMUEL,       180)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   0, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150) // sandpile.org (Stepping 0..7)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   1, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   2, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   3, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   4, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   5, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   6, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   7, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,  NA, "Ezra (C5C)",       UARCH_EZRA,         130) // sandpile.org (Stepping 8..F)
+  CHECK_UARCH(arch,  0,  6,  0,  8,  NA, "Ezra-T (C5N)",     UARCH_EZRA,         130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   0, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130) // sandpile.org (Stepping 0..7)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   1, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   2, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   3, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   4, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   5, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   6, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   7, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,  NA, "Nehemiah+ (C5P)",  UARCH_NEHEMIAH_P,   UKN) // sandpile.org (Stepping 8..F)
+  CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther (C5J)",     UARCH_ESTHER,        90)
+  CHECK_UARCH(arch,  0,  6,  0, 15,  NA, "Isaiah (CN)",      UARCH_ISAIAH,        65)
+  CHECK_UARCH(arch,  0,  7,  1, 11,   0, "WuDaoKou",         UARCH_WUDAOKOU,      28)
+  CHECK_UARCH(arch,  0,  7,  3, 11,   0, "LuJiaZui",         UARCH_LUJIAZUI,      16)
   UARCH_END
 
   return arch;
