@@ -451,7 +451,7 @@ struct uarch* get_uarch_from_cpuid_centaur(uint32_t ef, uint32_t f, uint32_t em,
   CHECK_UARCH(arch,  0,  6,  0,  9,   5, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
   CHECK_UARCH(arch,  0,  6,  0,  9,   6, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
   CHECK_UARCH(arch,  0,  6,  0,  9,   7, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
-  CHECK_UARCH(arch,  0,  6,  0,  9,  NA, "Nehemiah+ (C5P)",  UARCH_NEHEMIAH_P,   UKN) // sandpile.org (Stepping 8..F)
+  CHECK_UARCH(arch,  0,  6,  0,  9,  NA, "Nehemiah+ (C5P)",  UARCH_NEHEMIAH_P,   UNK) // sandpile.org (Stepping 8..F)
   CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther (C5J)",     UARCH_ESTHER,        90)
   CHECK_UARCH(arch,  0,  6,  0, 15,  NA, "Isaiah (CN)",      UARCH_ISAIAH,        65)
   CHECK_UARCH(arch,  0,  7,  1, 11,   0, "WuDaoKou",         UARCH_WUDAOKOU,      28)
