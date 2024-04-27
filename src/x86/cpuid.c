@@ -702,6 +702,7 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
   }
 
   switch(cpu->cpu_vendor) {
+    case CPU_VENDOR_INTEL:
     case CPU_VENDOR_CENTAUR:
       if (cpu->maxLevels >= 0x00000004) {
         bool toporet = get_topology_from_apic(cpu, topo);
