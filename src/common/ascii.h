@@ -106,21 +106,16 @@ $C1  MMM  :MMM      NMM  dMMMoo  OMM0....:Nx.   MMN   \
 $C1  MMM  :WWW      XWW   lONMM   'xXMMMMNOc    MMN   "
 
 #define ASCII_VIA \
-"$C1                                                     **********  \
-$C1     **********      **********   *********            *******   \
-$C1      **********    **********  **********   **       *****      \
-$C1       **********  **********  **********   ****    *****        \
-$C1        ********  **********  **********   ***********           \
-$C1         ******  **********  **********  **********              \
-$C1          ***** **********  **********  ********                 \
-$C1           **************  **********  *****    *****            \
-$C1            ************  ********** ***    **********           \
-$C1             **********  ***********    ***************          \
-$C1          ***  ******   ********    ********************         \
-$C1       *****    ****   ****   ***  **********  **********        \
-$C1    ******       **     *******   **********    **********       \
-$C1  ******             *********   **********      **********      \
-$C1 **********                                                      "
+"$C1                                      ******        \
+$C1         ******    ******  ****** *     ****        \
+$C1          ******  ******  ****** ***   ***          \
+$C1            ***  ******  ****** *******             \
+$C1             *********  ****** ****                 \
+$C1              *******  ****** **  ******            \
+$C1             * *****  *****   ***********           \
+$C1          ***   ***  **  *  ******  ******          \
+$C1        ****     *  *****  ******    ******         \
+$C1       ******                                       "
 
 #define ASCII_CYRIX \
 "$C1      @@@@@@@                                      \
@@ -577,7 +572,7 @@ typedef struct ascii_logo asciiL;
 asciiL logo_amd         = { ASCII_AMD,         39, 15, false, {C_FG_WHITE, C_FG_GREEN},                       {C_FG_WHITE,   C_FG_GREEN}   };
 asciiL logo_intel       = { ASCII_INTEL,       48, 14, false, {C_FG_CYAN},                                    {C_FG_CYAN,    C_FG_WHITE}   };
 asciiL logo_intel_new   = { ASCII_INTEL_NEW,   51,  9, false, {C_FG_CYAN},                                    {C_FG_CYAN,    C_FG_WHITE}   };
-asciiL logo_via         = { ASCII_VIA,         65, 15, false, {C_FG_CYAN},                                    {C_FG_WHITE,   C_FG_B_CYAN}  };
+asciiL logo_via         = { ASCII_VIA,         52, 10, false, {C_FG_CYAN},                                    {C_FG_WHITE,   C_FG_B_CYAN}  };
 asciiL logo_cyrix       = { ASCII_CYRIX,       51, 11, false, {C_FG_GREEN},                                   {C_FG_WHITE,   C_FG_B_GREEN} };
 asciiL logo_rise        = { ASCII_RISE,        50, 12, false, {C_FG_GREEN},                                   {C_FG_WHITE,   C_FG_B_GREEN} };
 asciiL logo_umc         = { ASCII_UMC,         51,  4, false, {C_FG_BLUE},                                    {C_FG_WHITE,   C_FG_BLUE}    };
