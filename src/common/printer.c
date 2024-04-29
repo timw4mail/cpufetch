@@ -378,8 +378,14 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
       art->art = &logo_via;
     }
   }
+  else if (art->vendor == CPU_VENDOR_CYRIX) {
+    art->art = &logo_cyrix;
+  }
   else if(art->vendor == CPU_VENDOR_RISE) {
     art->art = &logo_rise;
+  }
+  else if(art->vendor == CPU_VENDOR_UMC) {
+    art->art = &logo_umc;
   }
   else {
     art->art = &logo_unknown;
