@@ -133,12 +133,16 @@ enum {
   UARCH_ISAIAH,
   UARCH_WUDAOKOU,
   UARCH_LUJIAZUI,
-  // Others //
-  UARCH_U5S,
-  UARCH_U5D,
+  // Cyrix //
+  UARCH_M1,
+  UARCH_M2,
   UARCH_MEDIA_GX,
+  // Rise //
   UARCH_MP6,
-  UARCH_MP6_SHRINK
+  UARCH_MP6_SHRINK,
+  // UMC //
+  UARCH_U5S,
+  UARCH_U5D
 };
 
 struct uarch {
@@ -480,6 +484,7 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
   CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",        UARCH_MP6,          250) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "mP6",        UARCH_MP6_SHRINK,   180) // sandpile.org
+  CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
   UARCH_END
 
   return arch;
