@@ -475,6 +475,23 @@ $C1    ####@                               #########@            \
 $C1      #########@               ###############@               \
 $C1          ##############################@                     "
 
+#define ASCII_VIA_L \
+"$C1                                                     **********  \
+$C1     **********      **********   *********            *******   \
+$C1      **********    **********  **********   **       *****      \
+$C1       **********  **********  **********   ****    *****        \
+$C1        ********  **********  **********   ***********           \
+$C1         ******  **********  **********  **********              \
+$C1          ***** **********  **********  ********                 \
+$C1           **************  **********  *****    *****            \
+$C1            ************  ********** ***    **********           \
+$C1             **********  ***********    ***************          \
+$C1          ***  ******   ********    ********************         \
+$C1       *****    ****   ****   ***  **********  **********        \
+$C1    ******       **     *******   **********    **********       \
+$C1  ******             *********   **********      **********      \
+$C1 **********                                                      "
+
 #define ASCII_INTEL_L_NEW \
 " ####################################################### \
  ####################################################### \
@@ -598,6 +615,7 @@ asciiL logo_sipeed      = { ASCII_SIPEED,      41, 16, true,  {C_BG_RED, C_BG_WH
 asciiL logo_amd_l       = { ASCII_AMD_L,       62, 19, true,  {C_BG_WHITE, C_BG_GREEN},                       {C_FG_WHITE, C_FG_GREEN}     };
 asciiL logo_intel_l     = { ASCII_INTEL_L,     62, 19, true,  {C_BG_CYAN, C_BG_WHITE},                        {C_FG_CYAN,  C_FG_WHITE}     };
 asciiL logo_intel_l_new = { ASCII_INTEL_L_NEW, 57, 14, true,  {C_BG_CYAN, C_BG_WHITE, C_BG_BLUE},             {C_FG_CYAN,  C_FG_WHITE}     };
+asciiL logo_via_l       = { ASCII_VIA_L,       65, 15, false, {C_FG_CYAN},                                    {C_FG_WHITE, C_FG_B_CYAN}    };
 asciiL logo_arm_l       = { ASCII_ARM_L,       60,  8, true,  {C_BG_CYAN},                                    {C_FG_WHITE, C_FG_CYAN}      };
 asciiL logo_ibm_l       = { ASCII_IBM_L,       62, 13, true,  {C_BG_CYAN, C_FG_WHITE},                        {C_FG_CYAN,  C_FG_WHITE}     };
 asciiL logo_starfive_l  = { ASCII_STARFIVE_L,  50, 22, false, {C_FG_WHITE},                                   {C_FG_WHITE, C_FG_BLUE}      };

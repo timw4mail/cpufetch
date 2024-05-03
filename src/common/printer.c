@@ -375,7 +375,7 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
     ) {
       art->art = &logo_zhaoxin;
     } else {
-      art->art = &logo_via;
+      art->art = choose_ascii_art_aux(&logo_via_l, &logo_via, term, lf);
     }
   }
   else if (art->vendor == CPU_VENDOR_CYRIX) {
