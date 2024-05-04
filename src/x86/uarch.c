@@ -98,6 +98,8 @@ enum {
   // AMD //
   UARCH_AM486,
   UARCH_AM5X86,
+  UARCH_SSA5,
+  UARCH_K5,
   UARCH_K6,
   UARCH_K7,
   UARCH_K8,
@@ -316,6 +318,10 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   CHECK_UARCH(arch,  0,  4,  0,  8, NA, "Am486",       UARCH_AM486,      UNK)
   CHECK_UARCH(arch,  0,  4,  0,  9, NA, "Am486",       UARCH_AM486,      UNK)
   CHECK_UARCH(arch,  0,  4, NA, NA, NA, "Am5x86",      UARCH_AM5X86,     UNK)
+  CHECK_UARCH(arch,  0,  5,  0,  0, NA, "SSA5 (K5)",   UARCH_SSA5,       350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  1, NA, "K5",          UARCH_K5,         350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  2, NA, "K5",          UARCH_K5,         350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  3, NA, "K5",          UARCH_K5,         350) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  6, NA, "K6",          UARCH_K6,         300)
   CHECK_UARCH(arch,  0,  5,  0,  7, NA, "K6",          UARCH_K6,         250) // *p from sandpile.org
   CHECK_UARCH(arch,  0,  5,  0, 10, NA, "K7",          UARCH_K7,         130) // Geode NX
