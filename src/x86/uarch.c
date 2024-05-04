@@ -570,6 +570,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Intel Pentium II";
   else if (arch->uarch == UARCH_P6_PENTIUM_III)
     str = "Intel Pentium III";
+  else if (arch->uarch == UARCH_SSA5)
+    str = "AMD 5k86";
   else if (arch->uarch == UARCH_M2)
     str = "Cyrix MII";
   else if (arch->uarch == UARCH_MP6)
