@@ -136,7 +136,7 @@ enum {
   UARCH_WUDAOKOU,
   UARCH_LUJIAZUI,
   // Cyrix //
-  UARCH_M1,
+  UARCH_6X86,
   UARCH_M2,
   UARCH_MEDIA_GX,
   // Rise //
@@ -474,6 +474,23 @@ struct uarch* get_uarch_from_cpuid_centaur(uint32_t ef, uint32_t f, uint32_t em,
   return arch;
 }
 
+struct uarch* get_uarch_from_cpuid_cyrix(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
+  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "6x86",       UARCH_6X86,         180)
+  CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
+  UARCH_END
+
+  return arch;
+}
+
 struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
   struct uarch *arch = emalloc(sizeof(struct uarch));
 
@@ -487,10 +504,8 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   UARCH_START
   CHECK_UARCH(arch,  0,  4,  0,  1,  NA, "U5D",        UARCH_U5D,          600) // sandpile.org
   CHECK_UARCH(arch,  0,  4,  0,  2,  NA, "U5S",        UARCH_U5S,          600) // sandpile.org
-  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
   CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",        UARCH_MP6,          250) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "mP6",        UARCH_MP6_SHRINK,   180) // sandpile.org
-  CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
   UARCH_END
 
   return arch;
@@ -544,6 +559,8 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
     return get_uarch_from_cpuid_amd(ef, f, em, m, s);
   else if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR)
     return get_uarch_from_cpuid_centaur(ef, f, em, m, s);
+  else if (cpu->cpu_vendor == CPU_VENDOR_CYRIX)
+    return get_uarch_from_cpuid_cyrix(ef, f, em, m, s);
   else
     return get_uarch_from_cpuid_other(ef, f, em, m, s);
 }
@@ -572,6 +589,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Intel Pentium III";
   else if (arch->uarch == UARCH_SSA5)
     str = "AMD 5k86";
+  else if (arch->uarch == UARCH_6X86)
+    str = "Cyrix 6x86";
   else if (arch->uarch == UARCH_M2)
     str = "Cyrix MII";
   else if (arch->uarch == UARCH_MP6)
