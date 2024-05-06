@@ -475,6 +475,8 @@ struct uarch* get_uarch_from_cpuid_centaur(uint32_t ef, uint32_t f, uint32_t em,
 }
 
 struct uarch* get_uarch_from_cpuid_cyrix(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch *arch = emalloc(sizeof(struct uarch));
+
   // EF: Extended Family                                                           //
   // F:  Family                                                                    //
   // EM: Extended Model                                                            //
