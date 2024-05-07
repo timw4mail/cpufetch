@@ -47,6 +47,7 @@ typedef uint32_t MICROARCH;
 enum {
   UARCH_UNKNOWN,
   // INTEL //
+  UARCH_I486,
   UARCH_P5,
   UARCH_P5_MMX,
   UARCH_P6_PRO,
@@ -179,6 +180,15 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   // ------------------------------------------------------------------------------- //
   //                EF  F  EM   M   S                                                //
   UARCH_START
+  CHECK_UARCH(arch, 0,  4,  0,  0, NA, "i80486DX",          UARCH_I486,            UNK) // sandpile.org
+  CHECK_UARCH(arch, 0,  4,  0,  1, NA, "i80486DX-50",       UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  2, NA, "i80486SX",          UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  3, NA, "i80486DX2",         UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  4, NA, "i80486SL",          UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  5, NA, "i80486SX2",         UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  7, NA, "i80486DX2WB",       UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  8, NA, "i80486DX4",         UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  9, NA, "i80486DX4WB",       UARCH_I486,            UNK)
   CHECK_UARCH(arch, 0,  5,  0,  0, NA, "P5",                UARCH_P5,              800)
   CHECK_UARCH(arch, 0,  5,  0,  1, NA, "P5",                UARCH_P5,              800)
   CHECK_UARCH(arch, 0,  5,  0,  2, NA, "P5",                UARCH_P5,              UNK)
@@ -314,11 +324,12 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch,  0,  4,  0,  3, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0,  7, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0,  8, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0,  9, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4, NA, NA, NA, "Am5x86",      UARCH_AM5X86,     UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  3, NA, "Am486DX2",    UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  7, NA, "Am486DX2WB",  UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  8, NA, "Am486DX4",    UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  9, NA, "Am486DX4WB",  UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0, 14, NA, "Am5x86",      UARCH_AM5X86,     UNK)
+  CHECK_UARCH(arch,  0,  4,  0, 15, NA, "Am5x86WB",    UARCH_AM5X86,     UNK)
   CHECK_UARCH(arch,  0,  5,  0,  0, NA, "SSA5 (K5)",   UARCH_SSA5,       350) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  1, NA, "K5",          UARCH_K5,         350) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  2, NA, "K5",          UARCH_K5,         350) // sandpile.org
@@ -581,7 +592,9 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
 
   char *str = NULL;
 
-  if (arch->uarch == UARCH_P5)
+  if (arch->uarch == UARCH_I486)
+    str = "Intel 486";
+  else if (arch->uarch == UARCH_P5)
     str = "Intel Pentium";
   else if (arch->uarch == UARCH_P5_MMX)
     str = "Intel Pentium MMX";
@@ -591,6 +604,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Intel Pentium II";
   else if (arch->uarch == UARCH_P6_PENTIUM_III)
     str = "Intel Pentium III";
+  else if (arch->uarch == UARCH_AM486)
+    str = "AMD 486";
   else if (arch->uarch == UARCH_SSA5)
     str = "AMD 5k86";
   else if (arch->uarch == UARCH_6X86)
