@@ -608,7 +608,7 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "AMD 486";
   else if (arch->uarch == UARCH_SSA5)
     str = "AMD 5k86";
-  else if (arch->uarch == UARCH_6X86)
+  else if (arch->uarch == UARCH_M1)
     str = "Cyrix 6x86";
   else if (arch->uarch == UARCH_M2)
     str = "Cyrix MII";
