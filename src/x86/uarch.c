@@ -136,7 +136,7 @@ enum {
   UARCH_WUDAOKOU,
   UARCH_LUJIAZUI,
   // Cyrix //
-  UARCH_6X86,
+  UARCH_M1,
   UARCH_M2,
   UARCH_MEDIA_GX,
   // Rise //
@@ -486,7 +486,7 @@ struct uarch* get_uarch_from_cpuid_cyrix(uint32_t ef, uint32_t f, uint32_t em, u
   //                 EF  F  EM   M   S                                             //
   UARCH_START
   CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
-  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "6x86",       UARCH_6X86,         180)
+  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "M1/6x86",    UARCH_M1,           UNK)
   CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
   UARCH_END
 
