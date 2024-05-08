@@ -191,11 +191,11 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   CHECK_UARCH(arch, 0,  4,  0,  9, NA, "i80486DX4WB",       UARCH_I486,            UNK)
   CHECK_UARCH(arch, 0,  5,  0,  0, NA, "P5",                UARCH_P5,              800)
   CHECK_UARCH(arch, 0,  5,  0,  1, NA, "P5",                UARCH_P5,              800)
-  CHECK_UARCH(arch, 0,  5,  0,  2, NA, "P5",                UARCH_P5,              UNK)
-  CHECK_UARCH(arch, 0,  5,  0,  3, NA, "P5",                UARCH_P5,              600)
-  CHECK_UARCH(arch, 0,  5,  0,  4, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
-  CHECK_UARCH(arch, 0,  5,  0,  7, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
-  CHECK_UARCH(arch, 0,  5,  0,  8, NA, "P5 (MMX)",          UARCH_P5_MMX,          250)
+  CHECK_UARCH(arch, 0,  5,  0,  2, NA, "P54C",              UARCH_P5,              UNK)
+  CHECK_UARCH(arch, 0,  5,  0,  3, NA, "P24T",              UARCH_P5,              600)
+  CHECK_UARCH(arch, 0,  5,  0,  4, NA, "P55C (MMX)",        UARCH_P5_MMX,          350)
+  CHECK_UARCH(arch, 0,  5,  0,  7, NA, "P54CS",             UARCH_P5,              350) // sandpile.org
+  CHECK_UARCH(arch, 0,  5,  0,  8, NA, "P55C (MMX)",        UARCH_P5_MMX,          250)
   CHECK_UARCH(arch, 0,  5,  0,  9,  0, "Lakemont",          UARCH_LAKEMONT,         32)
   CHECK_UARCH(arch, 0,  5,  0,  9, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
   CHECK_UARCH(arch, 0,  5,  0, 10,  0, "Lakemont",          UARCH_LAKEMONT,         32)
@@ -324,12 +324,12 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch,  0,  4,  0,  3, NA, "Am486DX2",    UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  3, NA, "Am486DX2",    UARCH_AM486,      UNK) // sandpile.org
   CHECK_UARCH(arch,  0,  4,  0,  7, NA, "Am486DX2WB",  UARCH_AM486,      UNK)
   CHECK_UARCH(arch,  0,  4,  0,  8, NA, "Am486DX4",    UARCH_AM486,      UNK)
   CHECK_UARCH(arch,  0,  4,  0,  9, NA, "Am486DX4WB",  UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0, 14, NA, "Am5x86",      UARCH_AM5X86,     UNK)
-  CHECK_UARCH(arch,  0,  4,  0, 15, NA, "Am5x86WB",    UARCH_AM5X86,     UNK)
+  CHECK_UARCH(arch,  0,  4,  0, 14, NA, "Am5x86",      UARCH_AM5X86,     350)
+  CHECK_UARCH(arch,  0,  4,  0, 15, NA, "Am5x86WB",    UARCH_AM5X86,     350)
   CHECK_UARCH(arch,  0,  5,  0,  0, NA, "SSA5 (K5)",   UARCH_SSA5,       350) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  1, NA, "K5",          UARCH_K5,         350) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  2, NA, "K5",          UARCH_K5,         350) // sandpile.org
@@ -497,7 +497,7 @@ struct uarch* get_uarch_from_cpuid_cyrix(uint32_t ef, uint32_t f, uint32_t em, u
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch,  0,  4,  0,  9,  NA, "5x86",       UARCH_5X86,         UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  9,  NA, "5x86",       UARCH_5X86,         UNK) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "M1/6x86",    UARCH_M1,           UNK)
   CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
@@ -606,6 +606,8 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
     str = "Intel Pentium III";
   else if (arch->uarch == UARCH_AM486)
     str = "AMD 486";
+  else if (arch->uarch == UARCH_AM5X86)
+    str = "AMD 5x86";
   else if (arch->uarch == UARCH_SSA5)
     str = "AMD 5k86";
   else if (arch->uarch == UARCH_M1)
