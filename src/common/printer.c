@@ -219,6 +219,16 @@ void printOutLine(struct line_buffer* lbuf, struct ascii* art, int termw) {
   lbuf->chars = 0;
 }
 
+char* getAttributeValue(struct ascii* art, int type) {
+  for (uint32_t i = 0; i <= art->n_attributes_set; i++) {
+    if (art->attributes[i]->type == type) {
+      return art->attributes[i]->value;
+    }
+  }
+
+  return STRING_UNKNOWN;
+}
+
 void setAttribute(struct ascii* art, int type, char* value) {
   art->attributes[art->n_attributes_set]->value = value;
   art->attributes[art->n_attributes_set]->type = type;
@@ -357,8 +367,28 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
   else if(art->vendor == CPU_VENDOR_AMD) {
     art->art = choose_ascii_art_aux(&logo_amd_l, &logo_amd, term, lf);
   }
+  else if(art->vendor == CPU_VENDOR_CENTAUR) {
+    char* uarch = getAttributeValue(art, ATTRIBUTE_UARCH);
+    if (
+      strcmp(uarch, "WuDaoKou") == 0 ||
+      strcmp(uarch, "LuJiaZui") == 0
+    ) {
+      art->art = &logo_zhaoxin;
+    } else {
+      art->art = choose_ascii_art_aux(&logo_via_l, &logo_via, term, lf);
+    }
+  }
+  else if (art->vendor == CPU_VENDOR_CYRIX) {
+    art->art = &logo_cyrix;
+  }
+  else if(art->vendor == CPU_VENDOR_RISE) {
+    art->art = &logo_rise;
+  }
   else if (art->vendor == CPU_VENDOR_TRANSMETA) {
     art->art = &logo_transmeta;
+  }
+  else if(art->vendor == CPU_VENDOR_UMC) {
+    art->art = &logo_umc;
   }
   else {
     art->art = &logo_unknown;

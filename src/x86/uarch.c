@@ -47,8 +47,10 @@ typedef uint32_t MICROARCH;
 enum {
   UARCH_UNKNOWN,
   // INTEL //
+  UARCH_I486,
   UARCH_P5,
   UARCH_P5_MMX,
+  UARCH_P6_PRO,
   UARCH_P6_PENTIUM_II,
   UARCH_P6_PENTIUM_III,
   UARCH_DOTHAN,
@@ -94,11 +96,11 @@ enum {
   UARCH_TIGER_LAKE,
   UARCH_ALDER_LAKE,
   UARCH_RAPTOR_LAKE,
-  // TRANSMETA //
-  UARCH_CRUSOE,
   // AMD //
   UARCH_AM486,
   UARCH_AM5X86,
+  UARCH_SSA5,
+  UARCH_K5,
   UARCH_K6,
   UARCH_K7,
   UARCH_K8,
@@ -117,7 +119,36 @@ enum {
   UARCH_ZEN3,
   UARCH_ZEN3_PLUS,
   UARCH_ZEN4,
-  UARCH_ZEN4C
+  UARCH_ZEN4C,
+  // Centaur //
+  UARCH_WINCHIP,
+  UARCH_WINCHIP2,
+  UARCH_WINCHIP2A,
+  UARCH_WINCHIP2B,
+  UARCH_WINCHIP3,
+  UARCH_SAMUEL,
+  UARCH_SAMUEL2,
+  UARCH_EZRA,
+  UARCH_EZRA_T,
+  UARCH_NEHEMIAH,
+  UARCH_NEHEMIAH_P,
+  UARCH_ESTHER,
+  UARCH_ISAIAH,
+  UARCH_WUDAOKOU,
+  UARCH_LUJIAZUI,
+  // Cyrix //
+  UARCH_5X86,
+  UARCH_M1,
+  UARCH_M2,
+  UARCH_MEDIA_GX,
+  // Rise //
+  UARCH_MP6,
+  UARCH_MP6_SHRINK,
+  // TRANSMETA //
+  UARCH_CRUSOE,
+  // UMC //
+  UARCH_U5S,
+  UARCH_U5D
 };
 
 struct uarch {
@@ -151,16 +182,30 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   // ------------------------------------------------------------------------------- //
   //                EF  F  EM   M   S                                                //
   UARCH_START
+  CHECK_UARCH(arch, 0,  4,  0,  0, NA, "i80486DX",          UARCH_I486,            UNK) // sandpile.org
+  CHECK_UARCH(arch, 0,  4,  0,  1, NA, "i80486DX-50",       UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  2, NA, "i80486SX",          UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  3, NA, "i80486DX2",         UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  4, NA, "i80486SL",          UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  5, NA, "i80486SX2",         UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  7, NA, "i80486DX2WB",       UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  8, NA, "i80486DX4",         UARCH_I486,            UNK)
+  CHECK_UARCH(arch, 0,  4,  0,  9, NA, "i80486DX4WB",       UARCH_I486,            UNK)
   CHECK_UARCH(arch, 0,  5,  0,  0, NA, "P5",                UARCH_P5,              800)
   CHECK_UARCH(arch, 0,  5,  0,  1, NA, "P5",                UARCH_P5,              800)
-  CHECK_UARCH(arch, 0,  5,  0,  2, NA, "P5",                UARCH_P5,              UNK)
-  CHECK_UARCH(arch, 0,  5,  0,  3, NA, "P5",                UARCH_P5,              600)
-  CHECK_UARCH(arch, 0,  5,  0,  4, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
-  CHECK_UARCH(arch, 0,  5,  0,  7, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
-  CHECK_UARCH(arch, 0,  5,  0,  8, NA, "P5 (MMX)",          UARCH_P5_MMX,          250)
+  CHECK_UARCH(arch, 0,  5,  0,  2, NA, "P54C",              UARCH_P5,              UNK)
+  CHECK_UARCH(arch, 0,  5,  0,  3, NA, "P24T",              UARCH_P5,              600)
+  CHECK_UARCH(arch, 0,  5,  0,  4, NA, "P55C (MMX)",        UARCH_P5_MMX,          350)
+  CHECK_UARCH(arch, 0,  5,  0,  7, NA, "P54CS",             UARCH_P5,              350) // sandpile.org
+  CHECK_UARCH(arch, 0,  5,  0,  8, NA, "P55C (MMX)",        UARCH_P5_MMX,          250)
   CHECK_UARCH(arch, 0,  5,  0,  9,  0, "Lakemont",          UARCH_LAKEMONT,         32)
   CHECK_UARCH(arch, 0,  5,  0,  9, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
   CHECK_UARCH(arch, 0,  5,  0, 10,  0, "Lakemont",          UARCH_LAKEMONT,         32)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  1, "P6",                UARCH_P6_PRO,          UNK)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  2, "P6",                UARCH_P6_PRO,          600)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  6, "P6",                UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  7, "P6",                UARCH_P6_PRO,          350)
+  CHECK_UARCH(arch, 0,  6,  0,  1,  9, "P6",                UARCH_P6_PRO,          350)
   CHECK_UARCH(arch, 0,  6,  0,  0, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK)
   CHECK_UARCH(arch, 0,  6,  0,  1, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK) // process depends on core
   CHECK_UARCH(arch, 0,  6,  0,  2, NA, "P6 (Pentium II)",   UARCH_P6_PENTIUM_II,   UNK)
@@ -269,21 +314,6 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   return arch;
 }
 
-struct uarch* get_uarch_from_cpuid_transmeta(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
-  struct uarch* arch = emalloc(sizeof(struct uarch));
-  // EF: Extended Family                                                             //
-  // F:  Family                                                                      //
-  // EM: Extended Model                                                              //
-  // M: Model                                                                        //
-  // S: Stepping                                                                     //
-  // ------------------------------------------------------------------------------- //
-  //                EF  F  EM   M   S                                                //
-  UARCH_START
-  CHECK_UARCH(arch, 0,  5,  0,  4,  3, "CRUSOE",            UARCH_CRUSOE, 	   130)
-  UARCH_END
-  return arch;
-}
-
 // Inspired in Todd Allen's decode_uarch_amd
 struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
   struct uarch* arch = emalloc(sizeof(struct uarch));
@@ -296,11 +326,16 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch,  0,  4,  0,  3, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0,  7, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0,  8, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4,  0,  9, NA, "Am486",       UARCH_AM486,      UNK)
-  CHECK_UARCH(arch,  0,  4, NA, NA, NA, "Am5x86",      UARCH_AM5X86,     UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  3, NA, "Am486DX2",    UARCH_AM486,      UNK) // sandpile.org
+  CHECK_UARCH(arch,  0,  4,  0,  7, NA, "Am486DX2WB",  UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  8, NA, "Am486DX4",    UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0,  9, NA, "Am486DX4WB",  UARCH_AM486,      UNK)
+  CHECK_UARCH(arch,  0,  4,  0, 14, NA, "Am5x86",      UARCH_AM5X86,     350)
+  CHECK_UARCH(arch,  0,  4,  0, 15, NA, "Am5x86WB",    UARCH_AM5X86,     350)
+  CHECK_UARCH(arch,  0,  5,  0,  0, NA, "SSA5 (K5)",   UARCH_SSA5,       350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  1, NA, "K5",          UARCH_K5,         350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  2, NA, "K5",          UARCH_K5,         350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  3, NA, "K5",          UARCH_K5,         350) // sandpile.org
   CHECK_UARCH(arch,  0,  5,  0,  6, NA, "K6",          UARCH_K6,         300)
   CHECK_UARCH(arch,  0,  5,  0,  7, NA, "K6",          UARCH_K6,         250) // *p from sandpile.org
   CHECK_UARCH(arch,  0,  5,  0, 10, NA, "K7",          UARCH_K7,         130) // Geode NX
@@ -408,6 +443,92 @@ struct uarch* get_uarch_from_cpuid_amd(uint32_t ef, uint32_t f, uint32_t em, uin
   return arch;
 }
 
+struct uarch* get_uarch_from_cpuid_centaur(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch *arch = emalloc(sizeof(struct uarch));
+
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "C6",               UARCH_WINCHIP,      350) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  8,   5, "W2 (C6+)",         UARCH_WINCHIP2,     350) // sandpile.org / cpu-world
+  CHECK_UARCH(arch,  0,  5,  0,  8,   7, "W2A",              UARCH_WINCHIP2A,    250)
+  CHECK_UARCH(arch,  0,  5,  0,  8,  10, "W2B",              UARCH_WINCHIP2B,    250)
+  CHECK_UARCH(arch,  0,  5,  0,  9,  NA, "W3",               UARCH_WINCHIP3,     250)
+  CHECK_UARCH(arch,  0,  6,  0,  6,  NA, "Samuel (C5A)",     UARCH_SAMUEL,       180)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   0, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150) // sandpile.org (Stepping 0..7)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   1, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   2, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   3, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   4, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   5, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   6, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,   7, "Samuel 2 (C5B)",   UARCH_SAMUEL2,      150)
+  CHECK_UARCH(arch,  0,  6,  0,  7,  NA, "Ezra (C5C)",       UARCH_EZRA,         130) // sandpile.org (Stepping 8..F)
+  CHECK_UARCH(arch,  0,  6,  0,  8,  NA, "Ezra-T (C5N)",     UARCH_EZRA,         130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   0, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130) // sandpile.org (Stepping 0..7)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   1, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   2, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   3, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   4, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   5, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   6, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,   7, "Nehemiah (C5XL)",  UARCH_NEHEMIAH,     130)
+  CHECK_UARCH(arch,  0,  6,  0,  9,  NA, "Nehemiah+ (C5P)",  UARCH_NEHEMIAH_P,   UNK) // sandpile.org (Stepping 8..F)
+  CHECK_UARCH(arch,  0,  6,  0, 10,  NA, "Esther (C5J)",     UARCH_ESTHER,        90)
+  CHECK_UARCH(arch,  0,  6,  0, 15,  NA, "Isaiah (CN)",      UARCH_ISAIAH,        65)
+  CHECK_UARCH(arch,  0,  7,  1, 11,   0, "WuDaoKou",         UARCH_WUDAOKOU,      28)
+  CHECK_UARCH(arch,  0,  7,  3, 11,   0, "LuJiaZui",         UARCH_LUJIAZUI,      16)
+  UARCH_END
+
+  return arch;
+}
+
+struct uarch* get_uarch_from_cpuid_cyrix(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch *arch = emalloc(sizeof(struct uarch));
+
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  CHECK_UARCH(arch,  0,  4,  0,  9,  NA, "5x86",       UARCH_5X86,         UNK) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
+  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "M1/6x86",    UARCH_M1,           UNK)
+  CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
+  UARCH_END
+
+  return arch;
+}
+
+struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch *arch = emalloc(sizeof(struct uarch));
+
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  CHECK_UARCH(arch,  0,  4,  0,  1,  NA, "U5D",        UARCH_U5D,          600) // sandpile.org
+  CHECK_UARCH(arch,  0,  4,  0,  2,  NA, "U5S",        UARCH_U5S,          600) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",        UARCH_MP6,          250) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "mP6",        UARCH_MP6_SHRINK,   180) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "Crusoe",     UARCH_CRUSOE,       130) // sandpile.org
+  UARCH_END
+
+  return arch;
+}
+
 struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
   if(cpu->cpu_vendor == CPU_VENDOR_INTEL) {
     struct uarch* arch = emalloc(sizeof(struct uarch));
@@ -452,11 +573,14 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
     }
     return get_uarch_from_cpuid_intel(ef, f, em, m, s);
   }
-  else if (cpu->cpu_vendor == CPU_VENDOR_TRANSMETA) {
-    return get_uarch_from_cpuid_transmeta(ef, f, em, m, s);
-  }
-  else
+  else if (cpu->cpu_vendor == CPU_VENDOR_AMD)
     return get_uarch_from_cpuid_amd(ef, f, em, m, s);
+  else if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR)
+    return get_uarch_from_cpuid_centaur(ef, f, em, m, s);
+  else if (cpu->cpu_vendor == CPU_VENDOR_CYRIX)
+    return get_uarch_from_cpuid_cyrix(ef, f, em, m, s);
+  else
+    return get_uarch_from_cpuid_other(ef, f, em, m, s);
 }
 
 // If we cannot get the CPU name from CPUID, try to infer it from uarch
@@ -471,16 +595,34 @@ char* infer_cpu_name_from_uarch(struct uarch* arch) {
 
   char *str = NULL;
 
-  if (arch->uarch == UARCH_P5)
+  if (arch->uarch == UARCH_I486)
+    str = "Intel 486";
+  else if (arch->uarch == UARCH_P5)
     str = "Intel Pentium";
   else if (arch->uarch == UARCH_CRUSOE)
     str = "Transmeta Crusoe";
   else if (arch->uarch == UARCH_P5_MMX)
     str = "Intel Pentium MMX";
+  else if (arch->uarch == UARCH_P6_PRO)
+    str = "Intel Pentium Pro";
   else if (arch->uarch == UARCH_P6_PENTIUM_II)
     str = "Intel Pentium II";
   else if (arch->uarch == UARCH_P6_PENTIUM_III)
     str = "Intel Pentium III";
+  else if (arch->uarch == UARCH_AM486)
+    str = "AMD 486";
+  else if (arch->uarch == UARCH_AM5X86)
+    str = "AMD 5x86";
+  else if (arch->uarch == UARCH_SSA5)
+    str = "AMD 5k86";
+  else if (arch->uarch == UARCH_M1)
+    str = "Cyrix 6x86";
+  else if (arch->uarch == UARCH_M2)
+    str = "Cyrix MII";
+  else if (arch->uarch == UARCH_MP6)
+    str = "Rise mP6";
+  else if (arch->uarch == UARCH_MP6_SHRINK)
+    str = "Rise iDragon";
   else
     printErr("Unable to find name from uarch: %d", arch->uarch);
 
