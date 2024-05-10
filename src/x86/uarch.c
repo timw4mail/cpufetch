@@ -142,6 +142,8 @@ enum {
   UARCH_M2,
   UARCH_MEDIA_GX,
   UARCH_GEODE,
+  // DM&P //
+  UARCH_VORTEXDX3,
   // Rise //
   UARCH_MP6,
   UARCH_MP6_SHRINK,
@@ -543,11 +545,12 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   // ----------------------------------------------------------------------------- //
   //                 EF  F  EM   M   S                                             //
   UARCH_START
-  CHECK_UARCH(arch,  0,  4,  0,  1,  NA, "U5D",        UARCH_U5D,          600) // sandpile.org
-  CHECK_UARCH(arch,  0,  4,  0,  2,  NA, "U5S",        UARCH_U5S,          600) // sandpile.org
-  CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",        UARCH_MP6,          250) // sandpile.org
-  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "mP6",        UARCH_MP6_SHRINK,   180) // sandpile.org
-  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "Crusoe",     UARCH_CRUSOE,       130) // sandpile.org
+  CHECK_UARCH(arch,  0,  4,  0,  1,  NA, "U5D",         UARCH_U5D,          600) // sandpile.org
+  CHECK_UARCH(arch,  0,  4,  0,  2,  NA, "U5S",         UARCH_U5S,          600) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  0,  NA, "mP6",         UARCH_MP6,          250) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "mP6",         UARCH_MP6_SHRINK,   180) // sandpile.org
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "Crusoe",      UARCH_CRUSOE,       130) // sandpile.org
+  CHECK_UARCH(arch,  0,  6,  0,  1,   1, "Vortex86DX3", UARCH_VORTEXDX3,    UNK)
   UARCH_END
 
   return arch;
