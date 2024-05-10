@@ -390,6 +390,9 @@ void choose_ascii_art(struct ascii* art, struct color** cs, struct terminal* ter
   else if(art->vendor == CPU_VENDOR_UMC) {
     art->art = &logo_umc;
   }
+  else if(art->vendor == CPU_VENDOR_ZHAOXIN) {
+    art->art = &logo_zhaoxin;
+  }
   else {
     art->art = &logo_unknown;
   }

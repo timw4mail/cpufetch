@@ -575,7 +575,7 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
   }
   else if (cpu->cpu_vendor == CPU_VENDOR_AMD)
     return get_uarch_from_cpuid_amd(ef, f, em, m, s);
-  else if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR)
+  else if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR || cpu->cpu_vendor == CPU_VENDOR_ZHAOXIN)
     return get_uarch_from_cpuid_centaur(ef, f, em, m, s);
   else if (cpu->cpu_vendor == CPU_VENDOR_CYRIX)
     return get_uarch_from_cpuid_cyrix(ef, f, em, m, s);

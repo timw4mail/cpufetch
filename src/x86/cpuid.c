@@ -24,10 +24,12 @@
 #define CPU_VENDOR_AMD_STRING           "AuthenticAMD"
 #define CPU_VENDOR_CENTAUR_STRING       "CentaurHauls"
 #define CPU_VENDOR_CYRIX_STRING         "CyrixInstead"
+#define CPU_VENDOR_DMP_STRING           "Vortex86 SoC"
 #define CPU_VENDOR_NATSEMI_STRING       "Geode by NSC"
 #define CPU_VENDOR_RISE_STRING          "RiseRiseRise"
 #define CPU_VENDOR_TRANSMETA_STRING     "GenuineTMx86"
 #define CPU_VENDOR_UMC_STRING           "UMC UMC UMC "
+#define CPU_VENDOR_ZHAOXIN              "  Shanghai  "
 
 static const char *hv_vendors_string[] = {
   [HV_VENDOR_KVM]       = "KVMKVMKVM",
@@ -478,6 +480,8 @@ struct cpuInfo* get_cpu_info(void) {
     cpu->cpu_vendor = CPU_VENDOR_CENTAUR;
   else if (strcmp(CPU_VENDOR_CYRIX_STRING,name) == 0)
     cpu->cpu_vendor = CPU_VENDOR_CYRIX;
+  else if (strcmp(CPU_VENDOR_DMP_STRING,name) == 0)
+    cpu->cpu_vendor = CPU_VENDOR_DMP;
   else if (strcmp(CPU_VENDOR_RISE_STRING,name) == 0)
     cpu->cpu_vendor = CPU_VENDOR_RISE;
   else if (strcmp(CPU_VENDOR_NATSEMI_STRING,name) == 0)
@@ -486,6 +490,8 @@ struct cpuInfo* get_cpu_info(void) {
     cpu->cpu_vendor = CPU_VENDOR_TRANSMETA;
   else if (strcmp(CPU_VENDOR_UMC_STRING,name) == 0)
     cpu->cpu_vendor = CPU_VENDOR_UMC;
+  else if (strcmp(CPU_VENDOR_ZHAOXIN_STRING,name) == 0)
+    cpu->cpu_vendor = CPU_VENDOR_ZHAOXIN;
   else {
     cpu->cpu_vendor = CPU_VENDOR_INVALID;
     printErr("Unknown CPU vendor: %s", name);
@@ -709,9 +715,11 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
   }
 
   switch(cpu->cpu_vendor) {
+    case CPU_VENDOR_DMP:
     case CPU_VENDOR_INTEL:
     case CPU_VENDOR_CENTAUR:
     case CPU_VENDOR_TRANSMETA:
+    case CPU_VENDOR_ZHAOXIN:
       if (cpu->maxLevels >= 0x00000004) {
         bool toporet = get_topology_from_apic(cpu, topo);
         if(!toporet) {
