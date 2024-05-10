@@ -29,7 +29,7 @@
 #define CPU_VENDOR_RISE_STRING          "RiseRiseRise"
 #define CPU_VENDOR_TRANSMETA_STRING     "GenuineTMx86"
 #define CPU_VENDOR_UMC_STRING           "UMC UMC UMC "
-#define CPU_VENDOR_ZHAOXIN              "  Shanghai  "
+#define CPU_VENDOR_ZHAOXIN_STRING       "  Shanghai  "
 
 static const char *hv_vendors_string[] = {
   [HV_VENDOR_KVM]       = "KVMKVMKVM",
