@@ -141,6 +141,7 @@ enum {
   UARCH_M1,
   UARCH_M2,
   UARCH_MEDIA_GX,
+  UARCH_GEODE,
   // Rise //
   UARCH_MP6,
   UARCH_MP6_SHRINK,
@@ -504,8 +505,9 @@ struct uarch* get_uarch_from_cpuid_cyrix(uint32_t ef, uint32_t f, uint32_t em, u
   //                 EF  F  EM   M   S                                             //
   UARCH_START
   CHECK_UARCH(arch,  0,  4,  0,  9,  NA, "5x86",       UARCH_5X86,         UNK) // sandpile.org
-  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
   CHECK_UARCH(arch,  0,  5,  0,  2,  NA, "M1/6x86",    UARCH_M1,           UNK)
+  CHECK_UARCH(arch,  0,  5,  0,  4,  NA, "MediaGX",    UARCH_MEDIA_GX,     350)
+  CHECK_UARCH(arch,  0,  5,  0,  9,  NA, "Geode GX1",  UARCH_GEODE,        180)
   CHECK_UARCH(arch,  0,  6,  0,  0,   1, "M2/6x86MX",  UARCH_M2,           UNK)
   UARCH_END
 
@@ -581,7 +583,7 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
     return get_uarch_from_cpuid_amd(ef, f, em, m, s);
   else if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR || cpu->cpu_vendor == CPU_VENDOR_ZHAOXIN)
     return get_uarch_from_cpuid_centaur(ef, f, em, m, s);
-  else if (cpu->cpu_vendor == CPU_VENDOR_CYRIX)
+  else if (cpu->cpu_vendor == CPU_VENDOR_CYRIX || cpu->cpu_vendor == CPU_VENDOR_NATSEMI)
     return get_uarch_from_cpuid_cyrix(ef, f, em, m, s);
   else
     return get_uarch_from_cpuid_other(ef, f, em, m, s);
