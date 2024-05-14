@@ -130,6 +130,25 @@ $C1     @@@@@@@@@  @@@@     @@@@    @@@@ @@@@@  @@@@@ \
 $C1               @@@@                                \
 $C1              @@@@@                                "
 
+#define ASCII_NATSEMI \
+"$C1                   *****    \
+$C1                 ********   \
+$C1                **    ***** \
+$C1        **     *      ***** \
+$C1       *****          ***** \
+$C1     *********       ****** \
+$C1     ***********     ****** \
+$C1    *************   ******  \
+$C1   ***********************  \
+$C1  *******  **************   \
+$C1  ******     ***********    \
+$C1  *****       *********     \
+$C1 ******         ******      \
+$C1 ******      *    ***       \
+$C1  *****    **               \
+$C1  *********                 \
+$C1   ******                   "
+
 #define ASCII_RISE \
 "$C1                          ######                  \
 $C1                      #    ###                    \
@@ -623,6 +642,7 @@ asciiL logo_intel       = { ASCII_INTEL,       48, 14, false, {C_FG_CYAN},      
 asciiL logo_intel_new   = { ASCII_INTEL_NEW,   51,  9, false, {C_FG_CYAN},                                    {C_FG_CYAN,    C_FG_WHITE}   };
 asciiL logo_via         = { ASCII_VIA,         52, 10, false, {C_FG_CYAN},                                    {C_FG_WHITE,   C_FG_B_CYAN}  };
 asciiL logo_cyrix       = { ASCII_CYRIX,       51, 11, false, {C_FG_GREEN},                                   {C_FG_WHITE,   C_FG_B_GREEN} };
+asciiL logo_natsemi     = { ASCII_NATSEMI,     28, 17, false, {C_FG_GREEN},                                   {C_FG_WHITE,   C_FG_B_GREEN} };
 asciiL logo_rise        = { ASCII_RISE,        50, 12, false, {C_FG_GREEN},                                   {C_FG_WHITE,   C_FG_B_GREEN} };
 asciiL logo_umc         = { ASCII_UMC,         51,  4, false, {C_FG_BLUE},                                    {C_FG_WHITE,   C_FG_BLUE}    };
 asciiL logo_zhaoxin     = { ASCII_ZHAOXIN,     50, 25, false, {C_FG_RED},                                     {C_FG_WHITE,   C_FG_RED}     };
