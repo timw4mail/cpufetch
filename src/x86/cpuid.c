@@ -499,12 +499,22 @@ struct cpuInfo* get_cpu_info(void) {
   }
 
   //Get max extended level
-  eax = 0x80000000;
-  ebx = 0;
-  ecx = 0;
-  edx = 0;
-  cpuid(&eax, &ebx, &ecx, &edx);
-  cpu->maxExtendedLevels = eax;
+  if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR) {
+    // see https://www.sandpile.org/x86/cpuid.htm#level_C000_0000h
+    eax = 0xC0000000;
+    ebx = 0;
+    ecx = 0;
+    edx = 0;
+    cpuid(&eax, &ebx, &ecx, &edx);
+    cpu->maxExtendedLevels = eax;
+  } else {
+    eax = 0x80000000;
+    ebx = 0;
+    ecx = 0;
+    edx = 0;
+    cpuid(&eax, &ebx, &ecx, &edx);
+    cpu->maxExtendedLevels = eax;
+  }
 
   if (cpu->maxExtendedLevels >= 0x80000004){
     cpu->cpu_name = get_str_cpu_name_internal();
