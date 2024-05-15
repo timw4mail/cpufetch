@@ -74,7 +74,8 @@ enum {
   ATTRIBUTE_L1d,
   ATTRIBUTE_L2,
   ATTRIBUTE_L3,
-  ATTRIBUTE_PEAK
+  ATTRIBUTE_PEAK,
+  ATTRIBUTE_EASTER_EGG,
 };
 
 static const char* ATTRIBUTE_FIELDS [] = {
@@ -110,6 +111,7 @@ static const char* ATTRIBUTE_FIELDS [] = {
   "L2 Size:",
   "L3 Size:",
   "Peak Performance:",
+  "Easter Egg:",
 };
 
 static const char* ATTRIBUTE_FIELDS_SHORT [] = {
@@ -145,6 +147,7 @@ static const char* ATTRIBUTE_FIELDS_SHORT [] = {
   "L2 Size:",
   "L3 Size:",
   "Peak Perf.:",
+  "Easter Egg:",
 };
 
 struct terminal {
@@ -611,6 +614,7 @@ bool print_cpufetch_x86(struct cpuInfo* cpu, STYLE s, struct color** cs, struct 
   char* uarch = get_str_uarch(cpu);
   char* pp = get_str_peak_performance(cpu->peak_performance);
   char* manufacturing_process = get_str_process(cpu);
+  char* easter_egg = get_str_easter_egg(cpu);
   bool hybrid_architecture = cpu->next_cpu != NULL;
 
   if(cpu->cach != NULL) {
@@ -623,6 +627,10 @@ bool print_cpufetch_x86(struct cpuInfo* cpu, STYLE s, struct color** cs, struct 
   }
   setAttribute(art, ATTRIBUTE_UARCH, uarch);
   setAttribute(art, ATTRIBUTE_TECHNOLOGY, manufacturing_process);
+
+  if (strlen(easter_egg) > 0) {
+    setAttribute(art, ATTRIBUTE_EASTER_EGG, easter_egg);
+  }
 
   struct cpuInfo* ptr = cpu;
   for(int i = 0; i < cpu->num_cpus; ptr = ptr->next_cpu, i++) {
@@ -686,6 +694,7 @@ bool print_cpufetch_x86(struct cpuInfo* cpu, STYLE s, struct color** cs, struct 
 
   print_ascii_generic(art, longest_attribute, term->w, attribute_fields, hybrid_architecture);
 
+  free(easter_egg);
   free(manufacturing_process);
   free(sockets);
   free(n_cores);

@@ -1051,6 +1051,52 @@ char* get_str_cpu_name_abbreviated(struct cpuInfo* cpu) {
   return cpu->cpu_name;
 }
 
+char* get_str_easter_egg(struct cpuInfo* cpu) {
+  uint32_t c = 0;
+  char *str = emalloc(sizeof(char) * 13);
+  memset(str,0,13);
+
+  if (cpu->cpu_vendor == CPU_VENDOR_RISE) {
+    uint32_t eax = 0x00004A4E;
+    uint32_t ebx = 0;
+    uint32_t ecx = 0;
+    uint32_t edx = 0;
+    cpuid(&eax, &ebx, &ecx, &edx);
+
+    str[c++] = ebx       & MASK; // "* Ch"
+    str[c++] = (ebx>>8)  & MASK;
+    str[c++] = (ebx>>16) & MASK;
+    str[c++] = (ebx>>24) & MASK;
+    str[c++] = edx       & MASK; // "ris "
+    str[c++] = (edx>>8)  & MASK;
+    str[c++] = (edx>>16) & MASK;
+    str[c++] = (edx>>24) & MASK;
+    str[c++] = ecx       & MASK; // "Norr"
+    str[c++] = (ecx>>8)  & MASK;
+    str[c++] = (ecx>>16) & MASK;
+    str[c++] = (ecx>>24) & MASK;
+    str[c++] = eax       & MASK; // "ie *"
+    str[c++] = (eax>>8)  & MASK;
+    str[c++] = (eax>>16) & MASK;
+    str[c++] = (eax>>24) & MASK;
+  }
+  str[c] = '\0';
+
+  //Remove unused characters
+  char *raw = str;
+  char *dest = str;
+  // Remove spaces before name
+  while (*raw != '\0' && *raw == ' ')raw++;
+  // Remove spaces between the name and after it
+  while (*raw != '\0') {
+    while (*raw == ' ' && *(raw + 1) == ' ') raw++;
+    *dest++ = *raw++;
+  }
+  *dest = '\0';
+
+  return str;
+}
+
 char* get_str_topology(struct cpuInfo* cpu, struct topology* topo, bool dual_socket) {
   int topo_sockets = dual_socket ? topo->sockets : 1;
   char* string;
