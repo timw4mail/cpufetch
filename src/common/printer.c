@@ -628,7 +628,7 @@ bool print_cpufetch_x86(struct cpuInfo* cpu, STYLE s, struct color** cs, struct 
   setAttribute(art, ATTRIBUTE_UARCH, uarch);
   setAttribute(art, ATTRIBUTE_TECHNOLOGY, manufacturing_process);
 
-  if (strlen(easter_egg) > 0) {
+  if (easter_egg[0] != '\0') {
     setAttribute(art, ATTRIBUTE_EASTER_EGG, easter_egg);
   }
 
@@ -694,7 +694,6 @@ bool print_cpufetch_x86(struct cpuInfo* cpu, STYLE s, struct color** cs, struct 
 
   print_ascii_generic(art, longest_attribute, term->w, attribute_fields, hybrid_architecture);
 
-  free(easter_egg);
   free(manufacturing_process);
   free(sockets);
   free(n_cores);
@@ -704,6 +703,7 @@ bool print_cpufetch_x86(struct cpuInfo* cpu, STYLE s, struct color** cs, struct 
   free(l2);
   free(l3);
   free(pp);
+  free(easter_egg);
 
   free(art->attributes);
   free(art);

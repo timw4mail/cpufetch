@@ -1056,8 +1056,31 @@ char* get_str_easter_egg(struct cpuInfo* cpu) {
   char *str = emalloc(sizeof(char) * 13);
   memset(str,0,13);
 
-  if (cpu->cpu_vendor == CPU_VENDOR_RISE) {
-    uint32_t eax = 0x00004A4E;
+  if (cpu->cpu_vendor == CPU_VENDOR_AMD) {
+    uint32_t eax = 0x8FFFFFFF;
+    uint32_t ebx = 0;
+    uint32_t ecx = 0;
+    uint32_t edx = 0;
+    cpuid(&eax, &ebx, &ecx, &edx);
+
+    str[c++] = eax       & MASK;
+    str[c++] = (eax>>8)  & MASK;
+    str[c++] = (eax>>16) & MASK;
+    str[c++] = (eax>>24) & MASK;
+    str[c++] = ebx       & MASK;
+    str[c++] = (ebx>>8)  & MASK;
+    str[c++] = (ebx>>16) & MASK;
+    str[c++] = (ebx>>24) & MASK;
+    str[c++] = ecx       & MASK;
+    str[c++] = (ecx>>8)  & MASK;
+    str[c++] = (ecx>>16) & MASK;
+    str[c++] = (ecx>>24) & MASK;
+    str[c++] = edx       & MASK;
+    str[c++] = (edx>>8)  & MASK;
+    str[c++] = (edx>>16) & MASK;
+    str[c++] = (edx>>24) & MASK;
+  } else if (cpu->cpu_vendor == CPU_VENDOR_RISE) {
+    uint32_t eax = 0x00005A4E;
     uint32_t ebx = 0;
     uint32_t ecx = 0;
     uint32_t edx = 0;
@@ -1081,18 +1104,6 @@ char* get_str_easter_egg(struct cpuInfo* cpu) {
     str[c++] = (eax>>24) & MASK;
   }
   str[c] = '\0';
-
-  //Remove unused characters
-  char *raw = str;
-  char *dest = str;
-  // Remove spaces before name
-  while (*raw != '\0' && *raw == ' ')raw++;
-  // Remove spaces between the name and after it
-  while (*raw != '\0') {
-    while (*raw == ' ' && *(raw + 1) == ' ') raw++;
-    *dest++ = *raw++;
-  }
-  *dest = '\0';
 
   return str;
 }
