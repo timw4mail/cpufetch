@@ -199,7 +199,7 @@ struct uarch* get_uarch_from_cpuid_intel(uint32_t ef, uint32_t f, uint32_t em, u
   CHECK_UARCH(arch, 0,  5,  0,  2, NA, "P54C",              UARCH_P5,              UNK)
   CHECK_UARCH(arch, 0,  5,  0,  3, NA, "P24T",              UARCH_P5,              600)
   CHECK_UARCH(arch, 0,  5,  0,  4, NA, "P55C (MMX)",        UARCH_P5_MMX,          350)
-  CHECK_UARCH(arch, 0,  5,  0,  7, NA, "P54CS",             UARCH_P5,              350) // sandpile.org
+  CHECK_UARCH(arch, 0,  5,  0,  7, NA, "P54C",              UARCH_P5,              350) // sandpile.org
   CHECK_UARCH(arch, 0,  5,  0,  8, NA, "P55C (MMX)",        UARCH_P5_MMX,          250)
   CHECK_UARCH(arch, 0,  5,  0,  9,  0, "Lakemont",          UARCH_LAKEMONT,         32)
   CHECK_UARCH(arch, 0,  5,  0,  9, NA, "P5 (MMX)",          UARCH_P5_MMX,          UNK)
