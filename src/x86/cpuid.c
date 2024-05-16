@@ -130,6 +130,26 @@ char* get_str_cpu_name_internal(void) {
   return name;
 }
 
+bool abbreviate_cpu_name(char** name) {
+  char* old_name = *name;
+  char* new_name = ecalloc(strlen(old_name) + 1, sizeof(char));
+  // char* speed = ecalloc(strlen(old_name) + 1, sizeof(char));
+
+  char* old_name_ptr = old_name;
+  char* new_name_ptr = new_name;
+  char* aux_ptr = NULL;
+
+  // Remove frequency from cpu name
+  aux_ptr = strstr(old_name_ptr, "@");
+  if(aux_ptr == NULL) return false;
+  strncpy(new_name_ptr, old_name_ptr, aux_ptr-old_name_ptr);
+
+  free(old_name);
+  *name = new_name;
+
+  return true;
+}
+
 bool abbreviate_intel_cpu_name(char** name) {
   char* old_name = *name;
   char* new_name = ecalloc(strlen(old_name) + 1, sizeof(char));
@@ -738,10 +758,18 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
             get_topology_from_udev(topo);
           #else
             printErr("Failed to retrieve topology from APIC, assumming default values...\n");
-            topo->logical_cores = UNKNOWN_DATA;
-            topo->physical_cores = UNKNOWN_DATA;
-            topo->smt_available = 1;
-            topo->smt_supported = 1;
+            if (cpu->cpu_vendor == CPU_VENDOR_CENTAUR) {
+              topo->logical_cores = 1;
+              topo->physical_cores = 1;
+              topo->smt_available = 0;
+              topo->smt_supported = 0;
+            } else {
+              topo->logical_cores = UNKNOWN_DATA;
+              topo->physical_cores = UNKNOWN_DATA;
+              topo->smt_available = 1;
+              topo->smt_supported = 1;
+            }
+
           #endif
         }
       }
@@ -1045,6 +1073,10 @@ struct frequency* get_frequency_info(struct cpuInfo* cpu) {
 char* get_str_cpu_name_abbreviated(struct cpuInfo* cpu) {
   if(cpu->cpu_vendor == CPU_VENDOR_INTEL) {
     if(!abbreviate_intel_cpu_name(&cpu->cpu_name)) {
+      printWarn("Failed to abbreviate CPU name");
+    }
+  } else {
+    if(!abbreviate_cpu_name(&cpu->cpu_name)) {
       printWarn("Failed to abbreviate CPU name");
     }
   }
