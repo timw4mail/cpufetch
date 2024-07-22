@@ -628,8 +628,7 @@ struct cpuInfo* get_cpu_info(void) {
     if(ptr->topo == NULL) return cpu;
   }
 
-  cpu->num_cpus = modules;
-  cpu->peak_performance = get_p#define CPU_VENDOR_HYGON_STRING "HygonGenuine"eak_performance(cpu, accurate_pp());
+  cpu->peak_performance = get_peak_performance(cpu, accurate_pp());
 
   return cpu;
 }
