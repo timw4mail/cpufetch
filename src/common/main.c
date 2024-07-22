@@ -30,11 +30,17 @@ void print_help(char *argv[]) {
 #ifdef ARCH_X86
 #ifdef __linux__
   printf("      --%s %*s Compute the peak performance accurately (measure the CPU frequency instead of using the maximum)\n", t[ARG_ACCURATE_PP], (int) (max_len-strlen(t[ARG_ACCURATE_PP])), "");
-#endif
+  printf("      --%s %*s Measure the max CPU frequency instead of reading it\n", t[ARG_MEASURE_MAX_FREQ], (int) (max_len-strlen(t[ARG_MEASURE_MAX_FREQ])), "");
+#endif // __linux__
   printf("      --%s %*s Show the old Intel logo\n", t[ARG_LOGO_INTEL_OLD], (int) (max_len-strlen(t[ARG_LOGO_INTEL_OLD])), "");
   printf("      --%s %*s Show the new Intel logo\n", t[ARG_LOGO_INTEL_NEW], (int) (max_len-strlen(t[ARG_LOGO_INTEL_NEW])), "");
   printf("  -%c, --%s %*s Show the full CPU name (do not abbreviate it)\n", c[ARG_FULLCPUNAME], t[ARG_FULLCPUNAME], (int) (max_len-strlen(t[ARG_FULLCPUNAME])), "");
   printf("  -%c, --%s %*s Print raw cpuid data (debug purposes)\n", c[ARG_RAW], t[ARG_RAW], (int) (max_len-strlen(t[ARG_RAW])), "");
+#endif // ARCH_X86
+#ifdef ARCH_ARM
+#ifdef __linux__
+  printf("      --%s %*s Measure the max CPU frequency instead of reading it\n", t[ARG_MEASURE_MAX_FREQ], (int) (max_len-strlen(t[ARG_MEASURE_MAX_FREQ])), "");
+#endif
 #endif
   printf("  -%c, --%s %*s Print this help and exit\n", c[ARG_HELP], t[ARG_HELP], (int) (max_len-strlen(t[ARG_HELP])), "");
   printf("  -%c, --%s %*s Print cpufetch version and exit\n", c[ARG_VERSION], t[ARG_VERSION], (int) (max_len-strlen(t[ARG_VERSION])), "");
@@ -45,7 +51,7 @@ void print_help(char *argv[]) {
   printf("  * \"amd\":       Use AMD color scheme \n");
   printf("  * \"ibm\",       Use IBM color scheme \n");
   printf("  * \"arm\":       Use ARM color scheme \n");
-  printf("  * \"rockchip\":  Use ARM color scheme \n");
+  printf("  * \"rockchip\":  Use Rockchip color scheme \n");
   printf("  * \"sifive\":    Use SiFive color scheme \n");
   printf("  * custom:      If the argument of --color does not match any of the previous strings, a custom scheme can be specified.\n");
   printf("                 5 colors must be given in RGB with the format: R,G,B:R,G,B:...\n");
@@ -80,6 +86,11 @@ void print_help(char *argv[]) {
   printf("    --accurate-pp option, which will measure the AVX frequency and show a more precise estimation\n");
   printf("    (this option is only available in x86 architectures).\n");
   printf("    To precisely measure peak performance, see: https://github.com/Dr-Noob/peakperf\n");
+  printf("\n");
+  printf("    Both --accurate-pp and --measure-max-freq measure the actual frequency of the CPU. However,\n");
+  printf("    they differ slightly. The former measures the max frequency while running vectorized SSE/AVX\n");
+  printf("    instructions and it is thus x86 only, whereas the latter simply measures the max clock cycle\n");
+  printf("    and is architecture independent.\n");
 }
 
 int main(int argc, char* argv[]) {

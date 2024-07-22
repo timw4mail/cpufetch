@@ -16,6 +16,7 @@ enum {
   CPU_VENDOR_TRANSMETA,
   CPU_VENDOR_UMC,
   CPU_VENDOR_ZHAOXIN,
+  CPU_VENDOR_HYGON,
 // ARCH_ARM
   CPU_VENDOR_ARM,
   CPU_VENDOR_APPLE,
@@ -65,6 +66,8 @@ typedef int32_t VENDOR;
 struct frequency {
   int32_t base;
   int32_t max;
+  // Indicates if max frequency was measured
+  bool measured;
 };
 
 struct hypervisor {
@@ -107,7 +110,7 @@ struct topology {
 };
 
 struct features {
-  bool AES; // Must be the first field of features struct!
+  bool AES; // Must be the first field of features struct!  
 #ifdef ARCH_X86
   bool AVX;
   bool AVX2;
@@ -125,11 +128,11 @@ struct features {
 #elif ARCH_PPC
   bool altivec;
 #elif ARCH_ARM
-  bool NEON;
+  bool NEON;  
   bool SHA1;
   bool SHA2;
   bool CRC32;
-#endif
+#endif  
 };
 
 struct extensions {

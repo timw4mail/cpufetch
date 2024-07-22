@@ -8,12 +8,14 @@
 #ifdef __linux__
   #include <sys/auxv.h>
   #include <asm/hwcap.h>
+  #include "../common/freq.h"
 #elif defined __APPLE__ || __MACH__
-  #include "sysctl.h"
+  #include "../common/sysctl.h"
 #endif
 
 #include "../common/global.h"
 #include "../common/soc.h"
+#include "../common/args.h"
 #include "udev.h"
 #include "midr.h"
 #include "uarch.h"
@@ -39,8 +41,17 @@ struct cache* get_cache_info(struct cpuInfo* cpu) {
 struct frequency* get_frequency_info(uint32_t core) {
   struct frequency* freq = emalloc(sizeof(struct frequency));
 
+  freq->measured = false;
   freq->base = UNKNOWN_DATA;
   freq->max = get_max_freq_from_file(core);
+  #ifdef __linux__
+    if (freq->max == UNKNOWN_DATA || measure_max_frequency_flag()) {
+      if (freq->max == UNKNOWN_DATA)
+        printWarn("Unable to find max frequency from udev, measuring CPU frequency");
+      freq->max = measure_max_frequency(core);
+      freq->measured = true;
+    }
+  #endif
 
   return freq;
 }

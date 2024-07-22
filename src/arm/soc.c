@@ -8,9 +8,10 @@
 #include "udev.h"
 #include "uarch.h"
 #include "../common/global.h"
+#include "../common/pci.h"
 
 #if defined(__APPLE__) || defined(__MACH__)
-  #include "sysctl.h"
+  #include "../common/sysctl.h"
 #endif
 
 #define NA -1
@@ -577,6 +578,14 @@ bool match_qualcomm(char* soc_name, struct system_on_chip* soc) {
   SOC_EQ(tmp, "SM8250-AB",      "865+",      SOC_SNAPD_SM8250_AB,      soc,  7)
   SOC_EQ(tmp, "SM8350",         "888",       SOC_SNAPD_SM8350,         soc,  5)
   SOC_EQ(tmp, "SM8350-AC",      "888+",      SOC_SNAPD_SM8350,         soc,  5)
+  // Snapdragon Gen //
+  SOC_EQ(tmp, "SM4450",         "4 Gen 2",   SOC_SNAPD_SM4450,         soc,  4)
+  SOC_EQ(tmp, "SM6450",         "6 Gen 1",   SOC_SNAPD_SM6450,         soc,  4)
+  SOC_EQ(tmp, "SM7435-AB",      "7s Gen 2",  SOC_SNAPD_SM7435_AB,      soc,  4)
+  SOC_EQ(tmp, "SM7450",         "7 Gen 1",   SOC_SNAPD_SM7450,         soc,  4)
+  SOC_EQ(tmp, "SM7475",         "7+ Gen 2",  SOC_SNAPD_SM7475,         soc,  4)
+  SOC_EQ(tmp, "SM8450",         "8 Gen 1",   SOC_SNAPD_SM8450,         soc,  4)
+  SOC_EQ(tmp, "SM8475",         "8+ Gen 1",  SOC_SNAPD_SM8475,         soc,  4)
   SOC_END
 }
 
@@ -623,9 +632,34 @@ bool match_special(char* soc_name, struct system_on_chip* soc) {
     return true;
   }
 
-  // Snapdragon 8 Gen 1 reported as "taro"
+  // New Snapdragon SoCs codenames
+  // https://github.com/sm8450-mainline/fdt?tab=readme-ov-file#chipsets
+  // https://github.com/Dr-Noob/cpufetch/issues/253
+  if (strcmp(soc_name, "cape") == 0) {
+    fill_soc(soc, "8+ Gen 1", SOC_SNAPD_SM8475, 4);
+    return true;
+  }
+
   if(strcmp(soc_name, "taro") == 0) {
     fill_soc(soc, "8 Gen 1", SOC_SNAPD_SM8450, 4);
+    return true;
+  }
+
+  if(strcmp(soc_name, "ukee") == 0) {
+    fill_soc(soc, "7+ Gen 2", SOC_SNAPD_SM7475, 4);
+    return true;
+  }
+
+  if(strcmp(soc_name, "diwali") == 0) {
+    fill_soc(soc, "7 Gen 1", SOC_SNAPD_SM7450, 4);
+    return true;
+  }
+
+  // parrot can be either SM7435 or SM6450, we need more data
+  // to distingish between those two
+
+  if(strcmp(soc_name, "ravelin") == 0) {
+    fill_soc(soc, "4 Gen 2", SOC_SNAPD_SM4450, 4);
     return true;
   }
 
@@ -698,6 +732,16 @@ struct system_on_chip* guess_soc_from_android(struct system_on_chip* soc) {
   if(property_len > 0) {
     try_parse_soc_from_string(soc, property_len, tmp);
     if(soc->soc_vendor == SOC_VENDOR_UNKNOWN) printWarn("SoC detection failed using Android property ro.mediatek.platform: %s", tmp);
+    else return soc;
+  }
+
+  // https://github.com/Dr-Noob/cpufetch/issues/253
+  // ro.soc.model might be more reliable than ro.product.board or
+  // ro.board.platform, so try with it first
+  property_len = android_property_get("ro.soc.model", (char *) &tmp);
+  if(property_len > 0) {
+    try_parse_soc_from_string(soc, property_len, tmp);
+    if(soc->soc_vendor == SOC_VENDOR_UNKNOWN) printWarn("SoC detection failed using Android property ro.soc.model: %s", tmp);
     else return soc;
   }
 
@@ -831,6 +875,43 @@ struct system_on_chip* guess_soc_from_uarch(struct system_on_chip* soc, struct c
   }
 
   printWarn("guess_soc_from_uarch: No uarch matched the list");
+  return soc;
+}
+
+struct system_on_chip* guess_soc_from_pci(struct system_on_chip* soc, struct cpuInfo* cpu) {
+  struct pci_devices * pci = get_pci_devices();
+  if (pci == NULL) {
+    printWarn("guess_soc_from_pci: Unable to find suitable PCI devices");
+    return soc;
+  }
+
+  typedef struct {
+    uint16_t vendor_id;
+    uint16_t device_id;
+    struct system_on_chip soc;
+  } pciToSoC;
+
+  pciToSoC socFromPCI[] = {
+    {PCI_VENDOR_NVIDIA, PCI_DEVICE_TEGRA_X1, {SOC_TEGRA_X1, SOC_VENDOR_NVIDIA,  20, "Tegra X1", NULL} },
+    // {PCI_VENDOR_NVIDIA, PCI_DEVICE_GH_200,{SOC_GH_200,   SOC_VENDOR_NVIDIA,  ?, "Grace Hopper", NULL} },
+    {0x0000,            0x0000,              {UNKNOWN,      SOC_VENDOR_UNKNOWN, -1,          "", NULL} }
+  };
+
+  int index = 0;
+  while (socFromPCI[index].vendor_id != 0x0) {
+    for (int i=0; i < pci->num_devices; i++) {
+      struct pci_device * dev = pci->devices[i];
+
+      if (socFromPCI[index].vendor_id == dev->vendor_id &&
+          socFromPCI[index].device_id == dev->device_id) {
+        fill_soc(soc, socFromPCI[index].soc.soc_name, socFromPCI[index].soc.soc_model, socFromPCI[index].soc.process);
+        return soc;
+      }
+    }
+    index++;
+  }
+
+  printWarn("guess_soc_from_pci: No PCI device matched the list");
   return soc;
 }
 
@@ -1004,13 +1085,17 @@ struct system_on_chip* get_soc(struct cpuInfo* cpu) {
       printWarn("SoC detection failed using Android: Found '%s' string", soc->raw_name);
     }
 #endif // ifdef __ANDROID__
-    // If cpufinfo/Android (if available) detection fails, try with nvmem
+    // If previous steps failed, try with nvmem
     if(soc->soc_vendor == SOC_VENDOR_UNKNOWN) {
       soc = guess_soc_from_nvmem(soc);
     }
-    // If everything else failed, try infering it from the microarchitecture
+    // If previous steps failed, try infering it from the microarchitecture
     if(soc->soc_vendor == SOC_VENDOR_UNKNOWN) {
       soc = guess_soc_from_uarch(soc, cpu);
+    }
+    // If previous steps failed, try infering it from the pci device id
+    if(soc->soc_vendor == SOC_VENDOR_UNKNOWN) {
+      soc = guess_soc_from_pci(soc, cpu);
     }
   }
 #elif defined __APPLE__ || __MACH__

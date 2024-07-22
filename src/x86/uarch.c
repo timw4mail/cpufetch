@@ -557,6 +557,25 @@ struct uarch* get_uarch_from_cpuid_other(uint32_t ef, uint32_t f, uint32_t em, u
   return arch;
 }
 
+struct uarch* get_uarch_from_cpuid_hygon(uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
+  struct uarch* arch = emalloc(sizeof(struct uarch));
+
+  // EF: Extended Family                                                           //
+  // F:  Family                                                                    //
+  // EM: Extended Model                                                            //
+  // M: Model                                                                      //
+  // S: Stepping                                                                   //
+  // ----------------------------------------------------------------------------- //
+  //                 EF  F  EM   M   S                                             //
+  UARCH_START
+  // https://www.phoronix.com/news/Hygon-Dhyana-AMD-China-CPUs
+  CHECK_UARCH(arch,  9,  15,  0,  1, NA, "Zen",       UARCH_ZEN,      UNK) // https://github.com/Dr-Noob/cpufetch/issues/244
+  // CHECK_UARCH(arch,  9,  15,  0,  2, NA, "???",       ?????????,      UNK) // http://instlatx64.atw.hu/
+  UARCH_END
+
+  return arch;
+}
+
 struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t ef, uint32_t f, uint32_t em, uint32_t m, int s) {
   if(cpu->cpu_vendor == CPU_VENDOR_INTEL) {
     struct uarch* arch = emalloc(sizeof(struct uarch));
@@ -611,6 +630,14 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
     return get_uarch_from_cpuid_natsemi(ef, f, em, m, s);
   else
     return get_uarch_from_cpuid_other(ef, f, em, m, s);
+  }
+  else if(cpu->cpu_vendor == CPU_VENDOR_HYGON) {
+    return get_uarch_from_cpuid_hygon(ef, f, em, m, s);
+  }
+  else {
+    printBug("Invalid CPU vendor: %d", cpu->cpu_vendor);
+    return NULL;
+  }
 }
 
 // If we cannot get the CPU name from CPUID, try to infer it from uarch
