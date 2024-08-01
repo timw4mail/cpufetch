@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "uarch.h"
+#include "uarch_other.h"
 #include "../common/global.h"
 
 /*
