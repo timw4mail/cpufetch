@@ -23,7 +23,7 @@ ifneq ($(OS),Windows_NT)
 	ifeq ($(arch), $(filter $(arch), x86_64 amd64 i386 i486 i586 i686))
 		SRC_DIR=src/x86/
 		SOURCE += $(COMMON_SRC) $(SRC_DIR)cpuid.c $(SRC_DIR)apic.c $(SRC_DIR)cpuid_asm.c $(SRC_DIR)uarch.c $(SRC_DIR)uarch_other.c
-		HEADERS += $(COMMON_HDR) $(SRC_DIR)cpuid.h $(SRC_DIR)apic.h $(SRC_DIR)cpuid_asm.h $(SRC_DIR)uarch.h $(SRC_DIR)uarch_ther.h $(SRC_DIR)freq/freq.h
+		HEADERS += $(COMMON_HDR) $(SRC_DIR)cpuid.h $(SRC_DIR)apic.h $(SRC_DIR)cpuid_asm.h $(SRC_DIR)uarch.h $(SRC_DIR)uarch_other.h $(SRC_DIR)freq/freq.h
 
 		ifeq ($(os), Linux)
 			SOURCE += $(SRC_DIR)freq/freq.c freq_nov.o freq_avx.o freq_avx512.o
