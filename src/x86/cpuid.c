@@ -5,6 +5,9 @@
   #include "../common/udev.h"
   #include <unistd.h>
 #endif
+#if defined (__FreeBSD__) || defined (__APPLE__)
+  #include "../common/sysctl.h"
+#endif
 
 #ifdef __linux__
   #include "../common/freq.h"
@@ -709,9 +712,9 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
     topo->total_cores_module = topo->total_cores;
   }
 
+  bool toporet = false;
   switch(cpu->cpu_vendor) {
     case CPU_VENDOR_INTEL:
-      bool toporet = false;
       if (cpu->maxLevels >= 0x00000004) {
         toporet = get_topology_from_apic(cpu, topo);
       }
@@ -750,10 +753,15 @@ struct topology* get_topology_info(struct cpuInfo* cpu, struct cache* cach, int 
         }
       }
       else {
-        printWarn("Can't read topology information from cpuid (needed extended level is 0x%.8X, max is 0x%.8X)", 0x80000008, cpu->maxExtendedLevels);
-        topo->physical_cores = 1;
-        topo->logical_cores = 1;
-        topo->smt_supported = 1;
+        #ifdef __linux__
+          printWarn("Can't read topology information from cpuid (needed extended level is 0x%.8X, max is 0x%.8X), using udev...", 0x80000008, cpu->maxExtendedLevels);
+          get_topology_from_udev(topo);
+        #else
+          printWarn("Can't read topology information from cpuid (needed extended level is 0x%.8X, max is 0x%.8X)", 0x80000008, cpu->maxExtendedLevels);
+          topo->physical_cores = 1;
+          topo->logical_cores = 1;
+          topo->smt_supported = 1;
+        #endif
       }
 
       if (cpu->maxLevels >= 0x00000001) {
@@ -933,10 +941,20 @@ struct frequency* get_frequency_info(struct cpuInfo* cpu) {
   freq->measured = false;
 
   if(cpu->maxLevels < 0x00000016) {
-    #if defined (_WIN32) || defined (__APPLE__)
+    #if defined (_WIN32)
       printWarn("Can't read frequency information from cpuid (needed level is 0x%.8X, max is 0x%.8X)", 0x00000016, cpu->maxLevels);
       freq->base = UNKNOWN_DATA;
       freq->max = UNKNOWN_DATA;
+    #elif defined (__FreeBSD__) || defined (__APPLE__)
+      printWarn("Can't read frequency information from cpuid (needed level is 0x%.8X, max is 0x%.8X). Using sysctl", 0x00000016, cpu->maxLevels);
+      uint32_t freq_hz = get_sys_info_by_name(CPUFREQUENCY_SYSCTL);
+      if (freq_hz == 0) {
+        printWarn("Read max CPU frequency from sysctl and got 0 MHz");
+        freq->max = UNKNOWN_DATA;
+      }
+
+      freq->base = UNKNOWN_DATA;
+      freq->max = freq_hz;
     #else
       printWarn("Can't read frequency information from cpuid (needed level is 0x%.8X, max is 0x%.8X). Using udev", 0x00000016, cpu->maxLevels);
       freq->base = UNKNOWN_DATA;

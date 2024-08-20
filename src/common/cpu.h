@@ -125,6 +125,9 @@ struct features {
   bool SHA1;
   bool SHA2;
   bool CRC32;
+  bool SVE;
+  bool SVE2;
+  uint64_t cntb;
 #endif  
 };
 

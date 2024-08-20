@@ -167,11 +167,13 @@ bool match_google(char* soc_name, struct system_on_chip* soc) {
 
 // https://www.techinsights.com/
 // https://datasheetspdf.com/pdf-file/1316605/HiSilicon/Hi3660/1
+// https://github.com/Dr-Noob/cpufetch/issues/259
 bool match_hisilicon(char* soc_name, struct system_on_chip* soc) {
   char* tmp;
 
-  if((tmp = strstr(soc_name, "hi")) == NULL)
-    return false;
+  if((tmp = strstr(soc_name, "hi")) != NULL);
+  else if((tmp = strstr(soc_name, "kirin")) != NULL);
+  else return false;
 
   soc->soc_vendor = SOC_VENDOR_KIRIN;
 
@@ -204,6 +206,7 @@ bool match_hisilicon(char* soc_name, struct system_on_chip* soc) {
   SOC_EQ(tmp, "hi3680",     "980",   SOC_HISILICON_3680, soc,  7)
   //SOC_EQ(tmp, "?",        "985",   SOC_KIRIN, soc,  7)
   SOC_EQ(tmp, "hi3690",     "990",   SOC_HISILICON_3690, soc,  7)
+  SOC_EQ(tmp, "kirin9000s", "9000s", SOC_HISILICON_9000S,soc,  7)
   SOC_END
 }
 
@@ -906,9 +909,10 @@ struct system_on_chip* guess_soc_from_pci(struct system_on_chip* soc, struct cpu
   } pciToSoC;
 
   pciToSoC socFromPCI[] = {
-    {PCI_VENDOR_NVIDIA, PCI_DEVICE_TEGRA_X1, {SOC_TEGRA_X1, SOC_VENDOR_NVIDIA,  20, "Tegra X1", NULL} },
-    // {PCI_VENDOR_NVIDIA, PCI_DEVICE_GH_200,{SOC_GH_200,   SOC_VENDOR_NVIDIA,  ?, "Grace Hopper", NULL} },
-    {0x0000,            0x0000,              {UNKNOWN,      SOC_VENDOR_UNKNOWN, -1,          "", NULL} }
+    {PCI_VENDOR_NVIDIA, PCI_DEVICE_TEGRA_X1, {SOC_TEGRA_X1,     SOC_VENDOR_NVIDIA,  20, "Tegra X1", NULL} },
+    // {PCI_VENDOR_NVIDIA, PCI_DEVICE_GH_200,{SOC_GH_200,       SOC_VENDOR_NVIDIA,   ?, "Grace Hopper", NULL} },
+    {PCI_VENDOR_AMPERE, PCI_DEVICE_ALTRA,    {SOC_AMPERE_ALTRA, SOC_VENDOR_AMPERE,   7, "Altra",    NULL} }, // https://www.anandtech.com/show/15575/amperes-altra-80-core-n1-soc-for-hyperscalers-against-rome-and-xeon
+    {0x0000,            0x0000,              {UNKNOWN,          SOC_VENDOR_UNKNOWN, -1,      "",    NULL} }
   };
 
   int index = 0;
