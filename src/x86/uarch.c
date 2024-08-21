@@ -381,8 +381,7 @@ struct uarch* get_uarch_from_cpuid(struct cpuInfo* cpu, uint32_t dump, uint32_t 
     return get_uarch_from_cpuid_hygon(ef, f, em, m, s);
   }
   else {
-    printBug("Invalid CPU vendor: %d", cpu->cpu_vendor);
-    return NULL;
+    return get_uarch_from_cpuid_other(cpu, ef, f, em, m, s);
   }
 }
 

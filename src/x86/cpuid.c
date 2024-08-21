@@ -25,11 +25,14 @@
 #include "../common/args.h"
 #include "apic.h"
 #include "uarch.h"
+#include "uarch_other.h"
 #include "freq/freq.h"
 
-#define CPU_VENDOR_INTEL_STRING "GenuineIntel"
-#define CPU_VENDOR_AMD_STRING   "AuthenticAMD"
-#define CPU_VENDOR_HYGON_STRING "HygonGenuine"
+#define CPU_VENDOR_INTEL_STRING   "GenuineIntel"
+#define CPU_VENDOR_AMD_STRING     "AuthenticAMD"
+#define CPU_VENDOR_HYGON_STRING   "HygonGenuine"
+#define CPU_VENDOR_CYRIX_STRING   "CyrixInstead"
+#define CPU_VENDOR_NATSEMI_STRING "Geode by NSC"
 
 static const char *hv_vendors_string[] = {
   [HV_VENDOR_KVM]       = "KVMKVMKVM",
